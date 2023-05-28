@@ -11,6 +11,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>objekts</title>
+</svelte:head>
+
 <div class="flex flex-col gap-2 text-center mx-auto lg:m-auto w-fit">
   <label for="user">Enter your Cosmo username or Polygon address</label>
   <div class="flex gap-2 bg-slate-800 p-2 rounded-md border border-transparent focus-within:border-blue-500 transition">

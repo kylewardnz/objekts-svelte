@@ -11,6 +11,10 @@
   }
 </style>
 
+<svelte:head>
+  <meta name="description" content="View your tripleS and ARTMS objekt collection.">
+</svelte:head>
+
 <div class="h-screen container flex flex-col mx-auto gap-6 p-5">
   <a href="/" class="mx-auto w-fit text-center text-lg underline underline-offset-8 decoration-blue-500">objekts</a>
 
