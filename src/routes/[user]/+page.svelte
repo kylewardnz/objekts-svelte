@@ -2,11 +2,14 @@
   import Objekt from '../../components/objekt.svelte';
   import type { Objekt as RemoteObjekt } from '$lib/server/nft'
   import type { PageData } from './$types';
+	import { CheckCircle, Copy } from 'lucide-svelte';
+  import { copy } from 'svelte-copy';
 
   export let data: PageData;
 
   let filter: string = 'all';
   let sort: string = 'newest';
+  let copied = false
 
   $: objekts = executeFilters(data.objekts, filter, sort);
 
@@ -39,12 +42,22 @@
 </script>
 
 <svelte:head>
-  <title>{data.title}</title>
+  <title>{data.name}'s objekts</title>
 </svelte:head>
 
+<div class="grid grid-cols-1 grid-rows-2 lg:grid-cols-3 lg:grid-rows-1 gap-2">
+  <div class="flex flex-row gap-2 items-center text-xs justify-center lg:justify-normal">
+    <p>{data.address}</p>
+    <button on:click={() => copied = true} use:copy={data.address}>
+      {#if copied}
+      <CheckCircle class="w-6 h-6" />
+      {:else}
+      <Copy class="w-6 h-6" />
+      {/if}
+    </button>
+  </div>
 
-<div class="grid grid-cols-1 grid-rows-2 lg:grid-cols-2 lg:grid-rows-1">
-  <div class="text-center font-bold lg:text-left">{data.objekts.length} Objekts</div>
+  <div class="text-center font-bold">{data.objekts.length} Objekts</div>
 
   <!-- sort and filter -->
   <div class="flex flex-row justify-center gap-2 lg:justify-end">

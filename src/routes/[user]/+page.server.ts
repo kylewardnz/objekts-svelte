@@ -10,8 +10,9 @@ export const load = (async ({ params }) => {
     const address = isUser ? await searchUser(params.user) : params.user
 
     return {
-      title: `${isUser ? params.user : address.slice(0, 6)}'s objekts`,
+      name: isUser ? params.user : address.slice(0, 6),
       objekts: await fetchAll(address),
+      address,
     }
   } catch (e) {
     throw error(404, 'Not found');
