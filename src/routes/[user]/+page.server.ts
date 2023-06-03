@@ -6,16 +6,21 @@ import type { PageServerLoad } from './$types';
 export const load = (async ({ params }) => {
   const isUser = /^0x[a-fA-F0-9]{40}$/g.test(params.user) === false
 
+  let address: string;
   try {
-    const address = isUser ? await searchUser(params.user) : params.user
+    address = isUser ? await searchUser(params.user) : params.user
+  } catch (e) {
+    throw error(404, 'Address not found');
+  }
 
+  try {
     return {
       name: isUser ? params.user : address.slice(0, 6),
       objekts: await fetchAll(address),
       address,
     }
   } catch (e) {
-    throw error(404, 'Not found');
+    throw error(404, 'Error fetching objekts');
   }
 }) satisfies PageServerLoad;
 

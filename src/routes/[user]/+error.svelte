@@ -2,4 +2,6 @@
   import { page } from '$app/stores';
 </script>
 
-<h1>error ):</h1>
+<div class="text-center text-xl">
+  {$page.error.message}
+</div>
