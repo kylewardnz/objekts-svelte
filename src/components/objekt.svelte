@@ -9,21 +9,24 @@
   export let tokenId: number
 
   let image = frontImage
+  let loading = false
 
   function toggleImage() {
+    loading = true
     image = image === frontImage ? backImage : frontImage
   }
 </script>
 
 <div class="flex flex-col items-center gap-2">
   <img
+    on:load={() => loading = false}
     on:click={toggleImage}
     on:keydown={toggleImage}
     loading="lazy"
-    class="hover:cursor-pointer hover:shadow-lg hover:scale-105 transition duration-300"
+    class={`aspect-photocard hover:cursor-pointer hover:shadow-lg hover:scale-105 transition duration-300 ${loading ? 'blur-sm' : ''}`}
     src={image}
     width={300}
-    height={300}
+    height={480}
     alt={`${memberName} ${collection} ${num}`} />
   <div class="grid grid-cols-1 grid-rows-3 lg:grid-cols-2 lg:grid-rows-2">
     <p class="font-bold">{memberName} {collection}</p>
