@@ -33,7 +33,7 @@
   }
 </script>
 
-<div class="flex flex-row gap-2 justify-center">
+<div class="flex flex-row gap-3 lg:justify-center justify-start shrink-0 p-2 overflow-x-auto">
   <!-- ARTMS -->
   <button on:click={() => select('ARTMS')}>
     <Avatar class={cn('shadow transition-all', $selected.includes('ARTMS') && 'ring ring-blue-500')}>
