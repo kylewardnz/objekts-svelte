@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Loader2 } from 'lucide-svelte'
   import { goto } from '$app/navigation';
+	import { Button } from '$components/ui/button';
 
   let user: string
   let loading = false
@@ -17,7 +18,7 @@
 
 <div class="flex flex-col gap-2 text-center mx-auto lg:m-auto w-fit">
   <label for="user">Enter your Cosmo username or Polygon address</label>
-  <div class="flex gap-2 bg-slate-800 p-2 rounded-md border border-transparent focus-within:border-blue-500 transition">
+  <div class="flex gap-2 bg-slate-200 dark:bg-slate-800 p-2 rounded-md border border-transparent focus-within:border-blue-500 transition">
     <input
       bind:value={user}
       on:keydown={e => e.key === 'Enter' && view()}
@@ -32,11 +33,8 @@
     <Loader2 class="w-6 h-6 animate-spin" />
     {/if}
   </div>
-  
-  <button
-    disabled={user === undefined || user === '' || loading}
-    on:click={view}
-    class="rounded-md p-2 bg-slate-200 text-slate-950 hover:bg-slate-50 disabled:bg-opacity-75 hover:disabled:bg-slate-200/75 hover:disabled:text-slate-950 transition">
-      View Collection
-  </button>
+
+  <Button class="text-base" disabled={user === undefined || user === '' || loading} on:click={view}>
+    View Collection
+  </Button>
 </div>

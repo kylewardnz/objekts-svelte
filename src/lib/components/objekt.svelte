@@ -23,7 +23,7 @@
     on:click={toggleImage}
     on:keydown={toggleImage}
     loading="lazy"
-    class={`aspect-photocard hover:cursor-pointer hover:shadow-lg hover:scale-105 transition duration-300 ${loading ? 'blur-sm' : ''}`}
+    class={`aspect-photocard rounded-2xl hover:cursor-pointer hover:shadow-lg hover:scale-105 transition duration-300 ${loading ? 'blur-sm' : ''}`}
     src={image}
     width={300}
     height={480}

@@ -1,15 +1,13 @@
 <script lang="ts">
-  import Objekt from '../../components/objekt.svelte';
+  import CopyButton from '$components/copy-button.svelte';
+  import Objekt from '$components/objekt.svelte';
   import type { Objekt as RemoteObjekt } from '$lib/server/nft'
   import type { PageData } from './$types';
-	import { CheckCircle, Copy } from 'lucide-svelte';
-  import { copy } from 'svelte-copy';
 
   export let data: PageData;
 
   let filter: string = 'all';
   let sort: string = 'newest';
-  let copied = false
 
   $: objekts = executeFilters(data.objekts, filter, sort);
 
@@ -45,30 +43,23 @@
   <title>{data.name}'s objekts</title>
 </svelte:head>
 
-<div class="grid grid-cols-1 grid-rows-2 lg:grid-cols-3 lg:grid-rows-1 gap-2">
-  <div class="flex flex-row gap-2 items-center text-xs justify-center lg:justify-normal">
-    <p>{data.address}</p>
-    <button on:click={() => copied = true} use:copy={data.address}>
-      {#if copied}
-      <CheckCircle class="w-6 h-6" />
-      {:else}
-      <Copy class="w-6 h-6" />
-      {/if}
-    </button>
+<div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-3 lg:grid-rows-1 gap-2 items-center">
+  <div class="flex justify-center lg:justify-start">
+    <CopyButton address={data.address} />
   </div>
 
-  <div class="text-center font-bold">{data.objekts.length} Objekts</div>
+  <div class="flex justify-center font-bold">{data.objekts.length} Objekts</div>
 
   <!-- sort and filter -->
-  <div class="flex flex-row justify-center gap-2 lg:justify-end">
+  <div class="flex flex-row justify-center gap-2 lg:justify-end col-span-2 lg:col-span-1">
     <!-- sort -->
-    <select class="w-[180px] p-2 rounded-md bg-slate-800 focus:outline-none" bind:value={sort} on:change={e => sort = e.currentTarget.value}>
+    <select class="w-[180px] p-2 rounded-md bg-accent focus:outline-none" bind:value={sort} on:change={e => sort = e.currentTarget.value}>
       <option value="newest">Newest</option>
       <option value="oldest">Oldest</option>
     </select>
 
     <!-- filter -->
-    <select class="w-[180px] p-2 rounded-md bg-slate-800 focus:outline-none" bind:value={filter} on:change={e => filter = e.currentTarget.value}>
+    <select class="w-[180px] p-2 rounded-md bg-accent focus:outline-none" bind:value={filter} on:change={e => filter = e.currentTarget.value}>
       <option value="all">All</option>
       <option value="digital">Digital</option>
       <option value="physical">Physical</option>
