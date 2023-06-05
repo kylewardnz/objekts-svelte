@@ -2,6 +2,12 @@
   import members from '../../members.json'
   import { Avatar, AvatarFallback, AvatarImage } from "$components/ui/avatar"
   import { Separator } from "$components/ui/separator";
+  import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger
+  } from "$components/ui/tooltip";
 	import { cn } from '$lib/utils';
   import { selected } from '$lib/store'
 
@@ -34,31 +40,54 @@
 </script>
 
 <div class="flex flex-row gap-3 lg:justify-center justify-start shrink-0 p-2 overflow-x-auto">
-  <!-- ARTMS -->
-  <button on:click={() => select('ARTMS')}>
-    <Avatar class={cn('shadow transition-all', $selected.includes('ARTMS') && 'ring ring-blue-500')}>
-      <AvatarFallback>A</AvatarFallback>
-      <AvatarImage src="/members/ARTMS.png" alt="ARTMS" />
-    </Avatar>
-  </button>
+  <TooltipProvider>
+    <!-- ARTMS -->
+    <Tooltip>
+      <TooltipTrigger>
+        <button on:click={() => select('ARTMS')}>
+          <Avatar class={cn('shadow-md transition-all', $selected.includes('ARTMS') && 'ring ring-blue-500')}>
+            <AvatarFallback>A</AvatarFallback>
+            <AvatarImage src="/members/ARTMS.png" alt="ARTMS" />
+          </Avatar>
+        </button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>ARTMS</p>
+      </TooltipContent>
+    </Tooltip>
+  
+    <!-- tripleS -->
+    <Tooltip>
+      <TooltipTrigger>
+        <button on:click={() => select('tripleS')}>
+          <Avatar class={cn('shadow-md transition-all', $selected.includes('tripleS') && 'ring ring-blue-500')}>
+            <AvatarFallback>S</AvatarFallback>
+            <AvatarImage src="/members/tripleS.png" alt="tripleS" />
+          </Avatar>
+        </button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>tripleS</p>
+      </TooltipContent>
+    </Tooltip>
 
-  <!-- tripleS -->
-  <button on:click={() => select('tripleS')}>
-    <Avatar class={cn('shadow transition-all', $selected.includes('tripleS') && 'ring ring-blue-500')}>
-      <AvatarFallback>S</AvatarFallback>
-      <AvatarImage src="/members/tripleS.png" alt="tripleS" />
-    </Avatar>
-  </button>
+    <Separator orientation="vertical" />
 
-  <Separator orientation="vertical" />
-
-  <!-- all members -->
-  {#each members as { placeholder, name, image, color }}
-    <button on:click={() => select(name)}>
-      <Avatar class={cn('shadow transition-all', $selected.includes(name) && `ring ring-${color ?? 'blue-500'}`)}>
-        <AvatarFallback>{placeholder}</AvatarFallback>
-        <AvatarImage src={image} alt={name} />
-      </Avatar>
-    </button>
-  {/each}
+    <!-- all members -->
+    {#each members as { placeholder, name, image, color }}
+    <Tooltip>
+      <TooltipTrigger>
+        <button on:click={() => select(name)}>
+          <Avatar class={cn('shadow-md transition-all', $selected.includes(name) && `ring ring-${color ?? 'blue-500'}`)}>
+            <AvatarFallback>{placeholder}</AvatarFallback>
+            <AvatarImage src={image} alt={name} />
+          </Avatar>
+        </button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>{name}</p>
+      </TooltipContent>
+    </Tooltip>
+    {/each}
+  </TooltipProvider>
 </div>
