@@ -1,19 +1,25 @@
 <script lang="ts">
   import CopyButton from '$components/copy-button.svelte';
+	import MemberFilter from '$components/member-filter.svelte';
   import Objekt from '$components/objekt.svelte';
   import type { Objekt as RemoteObjekt } from '$lib/server/nft'
   import type { PageData } from './$types';
+  import { selected } from '$lib/store'
+  import memberList from '../../members.json'
 
   export let data: PageData;
 
   let filter: string = 'all';
   let sort: string = 'newest';
 
-  $: objekts = executeFilters(data.objekts, filter, sort);
+  $: objekts = executeFilters(data.objekts, filter, sort, $selected);
 
-  function executeFilters(input: RemoteObjekt[], f: string, s: string) {
-    const sorted = sortObjekts(input, s);
-    return filterObjekts(sorted, f);
+  function executeFilters(input: RemoteObjekt[], f: string, s: string, members: string[]) {
+    return filterObjekts(
+      sortObjekts(
+        filterMembers(input, members),
+      s),
+    f);
   }
 
   function filterObjekts(input: RemoteObjekt[], f: string) {
@@ -36,6 +42,32 @@
       default:
         return input;
     }
+  }
+
+  function filterMembers(input: RemoteObjekt[], members: string[]) {
+    if (members.length === 0) return input;
+
+    return input.filter(objekt => {
+      const existsS = members.includes('tripleS')
+      const existsA = members.includes('ARTMS')
+      let filtered = []
+
+      if (existsS) {
+        const S = memberList.slice(4)
+        filtered.push(...S.map(x => x.name));
+      }
+
+      if (existsA) {
+        const A = memberList.slice(0, 4)
+        filtered.push(...A.map(x => x.name));
+      }
+
+      if (!existsS && !existsA) {
+        filtered.push(...members)
+      }
+
+      return filtered.includes(objekt.memberName);
+    });
   }
 </script>
 
@@ -66,12 +98,15 @@
     </select>
   </div>
 </div>
+
+<MemberFilter />
+
 <div class="grid grid-cols-2 items-center gap-2 lg:grid-cols-4">
   {#key objekts}
   {#each objekts as objekt}
   <Objekt {...objekt} />
   {:else}
-	<p class="text-center w-full col-span-4">nothing!</p>
+	<p class="text-center w-full col-span-4">0 objekts found</p>
   {/each}
   {/key}
 </div>
