@@ -26,10 +26,8 @@
 
 <div class="relative">
 	<Button
-		id="dropdown"
 		on:click={() => (open = !open)}
-		class="flex flex-row gap-2 w-fit"
-		size="sm"
+		class="flex flex-row gap-2 w-fit text-base"
 		variant="ghost"
 	>
 		<Share2 class="w-4 h-4" /> Share
