@@ -54,8 +54,12 @@
 
 <svelte:head>
 	<!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
+	<!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
 	<script>
-		if (localStorage.theme === 'dark' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+		if (
+			localStorage.theme === 'dark' ||
+			(!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)
+		) {
 			document.documentElement.classList.add('dark')
 		} else {
 			document.documentElement.classList.remove('dark')

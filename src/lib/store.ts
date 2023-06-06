@@ -1,3 +1,3 @@
-import { writable } from 'svelte/store';
+import { writable } from 'svelte/store'
 
-export const selected = writable(['tripleS', 'ARTMS']);
+export const selected = writable(['tripleS', 'ARTMS'])
