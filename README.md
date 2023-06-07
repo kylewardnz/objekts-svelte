@@ -10,6 +10,7 @@ Replaces the React/Nextjs 13 version found [here](https://github.com/teamreflex/
 - [Tailwind CSS](https://tailwindcss.com/)
 - [shadcn-svelte](https://www.shadcn-svelte.com/)
 - [Alchemy NFT API](https://www.alchemy.com/)
+- [Upstash](https://www.upstash.com/)
 
 ## License
 
