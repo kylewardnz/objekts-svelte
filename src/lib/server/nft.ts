@@ -1,18 +1,8 @@
 import { Alchemy, Network, NftOrdering, type OwnedNft } from 'alchemy-sdk'
 import { ALCHEMY_KEY } from '$env/static/private'
+import type { Objekt } from '$lib/types'
 
 const CONTRACT = '0xA4B37bE40F7b231Ee9574c4b16b7DDb7EAcDC99B'
-
-export type Objekt = {
-  frontImage: string
-  backImage: string
-  className: string
-  memberName: string
-  season: string
-  collection: string
-  num: number
-  tokenId: number
-}
 
 export async function fetchAll(address: string): Promise<Objekt[]> {
   const alchemy = new Alchemy({

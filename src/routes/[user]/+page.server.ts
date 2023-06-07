@@ -1,4 +1,4 @@
-import { searchUser } from '$lib/server/cosmo'
+import { find } from '$lib/server/cosmo'
 import { fetchAll } from '$lib/server/nft'
 import { error } from '@sveltejs/kit'
 import type { PageServerLoad } from './$types'
@@ -8,7 +8,7 @@ export const load = (async ({ params }) => {
 
   let address: string
   try {
-    address = isUser ? await searchUser(params.user) : params.user
+    address = isUser ? await find(params.user) : params.user
   } catch (e) {
     throw error(404, 'Address not found')
   }

@@ -1,11 +1,28 @@
+import type { User } from '$lib/types'
 import { error } from '@sveltejs/kit'
 
 /**
- * Search the given user in Cosmo and return its address.
+ * Search for the given user.
+ * @param user string
+ * @returns Promise<User[]>
+ */
+export async function search(user: string): Promise<User[]> {
+  const res = await fetch(`https://api.cosmo.fans/user/v1/search?query=${user}`)
+
+  if (res.ok) {
+    const { results } = await res.json()
+    return results
+  }
+
+  return []
+}
+
+/**
+ * Find the given user in Cosmo and return its address.
  * @param user string
  * @returns Promise<string>
  */
-export async function searchUser(user: string): Promise<string> {
+export async function find(user: string): Promise<string> {
   const res = await fetch(`https://api.cosmo.fans/user/v1/search?query=${user}`)
 
   if (res.ok) {
