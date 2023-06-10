@@ -35,7 +35,7 @@
   "dependencies": {
     "@fontsource/inter": "^5.0.1",
     "@upstash/redis": "^1.21.0",
-    "alchemy-sdk": "^2.8.3",
+    "alchemy-sdk": "^2.9.0",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
     "lucide-svelte": "^0.221.0",

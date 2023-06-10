@@ -10,7 +10,7 @@
   export let address: string
 
   let filter: string = 'all'
-  let sort: string = 'newest'
+  let sort: string = 'recently-acquired'
 
   $: filteredObjekts = filterObjekts(sortObjekts(filterMembers(objekts, $selected), sort), filter)
 
@@ -27,10 +27,10 @@
 
   function sortObjekts(input: RemoteObjekt[], s: string) {
     switch (s) {
-      case 'newest':
-        return input.slice().sort((a, b) => b.tokenId - a.tokenId)
-      case 'oldest':
-        return input.slice().sort((a, b) => a.tokenId - b.tokenId)
+      case 'recently-acquired':
+        return input.slice().sort((a, b) => b.acquiredAt - a.acquiredAt)
+      case 'oldest-acquired':
+        return input.slice().sort((a, b) => a.acquiredAt - b.acquiredAt)
       default:
         return input
     }
@@ -79,8 +79,8 @@
       bind:value={sort}
       on:change={(e) => (sort = e.currentTarget.value)}
     >
-      <option value="newest">Newest</option>
-      <option value="oldest">Oldest</option>
+      <option value="recently-acquired">Recently Acquired</option>
+      <option value="oldest-acquired">Oldest Acquired</option>
     </select>
 
     <!-- filter -->

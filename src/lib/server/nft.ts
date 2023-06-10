@@ -35,6 +35,7 @@ export async function fetchAll(address: string): Promise<Objekt[]> {
       season: nft.rawMetadata?.objekt.season as string,
       collection: nft.rawMetadata?.objekt.collectionNo as string,
       num: nft.rawMetadata?.objekt.objektNo as number,
-      tokenId: Number(nft.rawMetadata?.objekt.tokenId)
+      tokenId: Number(nft.rawMetadata?.objekt.tokenId),
+      acquiredAt: (nft.acquiredAt?.blockTimestamp ? new Date(nft.acquiredAt.blockTimestamp) : new Date()).getTime()
     }))
 }

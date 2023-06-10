@@ -1,4 +1,8 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 dependencies:
   '@fontsource/inter':
@@ -8,8 +12,8 @@ dependencies:
     specifier: ^1.21.0
     version: 1.21.0
   alchemy-sdk:
-    specifier: ^2.8.3
-    version: 2.8.3
+    specifier: ^2.9.0
+    version: 2.9.0
   class-variance-authority:
     specifier: ^0.6.0
     version: 0.6.0(typescript@5.0.4)
@@ -971,8 +975,8 @@ packages:
       uri-js: 4.4.1
     dev: true
 
-  /alchemy-sdk@2.8.3:
-    resolution: {integrity: sha512-JyJt62udg4kCBCQtG64q4cE74pFuH73+FEWVDrA5VfffmVBmCMYK8kJQyfyacqVZrjO0LzpULt3C7ELc+saRyQ==}
+  /alchemy-sdk@2.9.0:
+    resolution: {integrity: sha512-vPFMGP43LrFQ9XOLHgVNyJCd1DDPK5qXniF5pdZzUA52h/FMHKkMaOayZNf63Y6GDQ1KGHqtyJIoSZtbPeg9kw==}
     dependencies:
       '@ethersproject/abi': 5.7.0
       '@ethersproject/abstract-provider': 5.7.0

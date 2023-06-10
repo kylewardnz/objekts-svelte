@@ -7,6 +7,7 @@ export type Objekt = {
   collection: string
   num: number
   tokenId: number
+  acquiredAt: number
 }
 
 export type User = {
