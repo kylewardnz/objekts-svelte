@@ -6,16 +6,16 @@
   import { cn } from '$lib/utils'
   import { selected } from '$lib/store'
 
-  $: groupSelected = $selected.includes('tripleS') || $selected.includes('ARTMS')
+  $: groupSelected = $selected.includes('SSS') || $selected.includes('ARTMS')
 
   function select(name: string) {
     // unselect groups when selecting a member
-    if (['tripleS', 'ARTMS'].includes(name) === false && groupSelected) {
-      selected.update((state) => state.filter((n) => !['tripleS', 'ARTMS'].includes(n)))
+    if (['SSS', 'ARTMS'].includes(name) === false && groupSelected) {
+      selected.update((state) => state.filter((n) => !['SSS', 'ARTMS'].includes(n)))
     }
 
     // unselect members when selecting a group
-    if (['tripleS', 'ARTMS'].includes(name) && !groupSelected) {
+    if (['SSS', 'ARTMS'].includes(name) && !groupSelected) {
       selected.set([name])
       return
     }
@@ -29,7 +29,7 @@
 
     // select both groups when no members are selected
     if ($selected.length === 0) {
-      selected.set(['tripleS', 'ARTMS'])
+      selected.set(['SSS', 'ARTMS'])
     }
   }
 </script>
@@ -59,11 +59,11 @@
     <!-- tripleS -->
     <Tooltip>
       <TooltipTrigger>
-        <button on:click={() => select('tripleS')}>
+        <button on:click={() => select('SSS')}>
           <Avatar
             class={cn(
               'shadow-md transition-all',
-              $selected.includes('tripleS') && 'ring ring-blue-500'
+              $selected.includes('SSS') && 'ring ring-blue-500'
             )}
           >
             <AvatarFallback>S</AvatarFallback>
@@ -79,25 +79,27 @@
     <Separator orientation="vertical" />
 
     <!-- all members -->
-    {#each members as { placeholder, name, image, color }}
-      <Tooltip>
-        <TooltipTrigger>
-          <button on:click={() => select(name)}>
-            <Avatar
-              class={cn(
-                'shadow-md transition-all',
-                $selected.includes(name) && `ring ring-${color ?? 'blue-500'}`
-              )}
-            >
-              <AvatarFallback>{placeholder}</AvatarFallback>
-              <AvatarImage src={image} alt={name} />
-            </Avatar>
-          </button>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>{name}</p>
-        </TooltipContent>
-      </Tooltip>
+    {#each members as { placeholder, name, image, show, color }}
+      {#if show}
+        <Tooltip>
+          <TooltipTrigger>
+            <button on:click={() => select(name)}>
+              <Avatar
+                class={cn(
+                  'shadow-md transition-all',
+                  $selected.includes(name) && `ring ring-${color ?? 'blue-500'}`
+                )}
+              >
+                <AvatarFallback>{placeholder}</AvatarFallback>
+                <AvatarImage src={image} alt={name} />
+              </Avatar>
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{name}</p>
+          </TooltipContent>
+        </Tooltip>
+      {/if}
     {/each}
   </TooltipProvider>
 </div>

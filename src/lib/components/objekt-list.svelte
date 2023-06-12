@@ -1,28 +1,22 @@
 <script lang="ts">
   import memberList from '../../members.json'
-  import type { Objekt as RemoteObjekt } from '$lib/types'
+  import type { Objekt as RemoteObjekt, Filter } from '$lib/types'
   import { selected } from '$lib/store'
-  import MemberFilter from './member-filter.svelte'
-  import Objekt from './objekt.svelte'
-  import CopyButton from './copy-button.svelte'
+  import MemberFilter from '$lib/components/member-filter.svelte'
+  import Objekt from '$lib/components/objekt.svelte'
+  import CopyButton from '$lib/components/copy-button.svelte'
+  import ListFilter from '$lib/components/list-filter.svelte'
 
   export let objekts: RemoteObjekt[] = []
   export let address: string
 
-  let filter: string = 'all'
   let sort: string = 'recently-acquired'
+  let selectedFilters: Filter[] = []
 
-  $: filteredObjekts = filterObjekts(sortObjekts(filterMembers(objekts, $selected), sort), filter)
+  $: filteredObjekts = filterAll(objekts, selectedFilters, sort, $selected)
 
-  function filterObjekts(input: RemoteObjekt[], f: string) {
-    switch (f) {
-      case 'digital':
-        return input.filter((objekt) => objekt.collection.includes('Z'))
-      case 'physical':
-        return input.filter((objekt) => objekt.collection.includes('A'))
-      default:
-        return input
-    }
+  function filterAll(input: RemoteObjekt[], filter: Filter[], sort: string, memberList: string[]) {
+    return filterProperties(sortObjekts(filterMembers(input, memberList), sort), filter)
   }
 
   function sortObjekts(input: RemoteObjekt[], s: string) {
@@ -40,7 +34,7 @@
     if (members.length === 0) return input
 
     return input.filter((objekt) => {
-      const existsS = members.includes('tripleS')
+      const existsS = members.includes('SSS')
       const existsA = members.includes('ARTMS')
       const filtered = []
 
@@ -59,6 +53,21 @@
       }
 
       return filtered.includes(objekt.memberName)
+    })
+  }
+
+  function filterProperties(input: RemoteObjekt[], selectedFilters: Filter[]) {
+    return input.filter((objekt) => {
+      // show all by default
+      if (selectedFilters.length === 0) {
+        return true
+      }
+
+      const matches = []
+      for (const filter of selectedFilters) {
+        matches.push(objekt[filter.property] === filter.value)
+      }
+      return matches.some((x) => x === true)
     })
   }
 </script>
@@ -84,15 +93,7 @@
     </select>
 
     <!-- filter -->
-    <select
-      class="w-[180px] p-2 rounded-md bg-accent focus:outline-none"
-      bind:value={filter}
-      on:change={(e) => (filter = e.currentTarget.value)}
-    >
-      <option value="all">All</option>
-      <option value="digital">Digital</option>
-      <option value="physical">Physical</option>
-    </select>
+    <ListFilter {objekts} on:filter={(e) => (selectedFilters = e.detail)} />
   </div>
 </div>
 
