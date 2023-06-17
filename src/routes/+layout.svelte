@@ -3,19 +3,17 @@
   import '@fontsource/inter'
   import Theme from '$components/theme.svelte'
   import About from '$components/about.svelte'
-  import { PUBLIC_CLOUDFLARE_ANALYTICS } from '$env/static/public'
-
-  const token = `{ "token": "${PUBLIC_CLOUDFLARE_ANALYTICS}" }`
+  import { PUBLIC_UMAMI_ANALYTICS } from '$env/static/public'
 </script>
 
 <svelte:head>
   <meta name="description" content="View your tripleS and ARTMS objekt collection." />
 
-  {#if PUBLIC_CLOUDFLARE_ANALYTICS}
+  {#if PUBLIC_UMAMI_ANALYTICS}
     <script
-      defer
-      src="https://static.cloudflareinsights.com/beacon.min.js"
-      data-cf-beacon={token}
+      async
+      src="https://analytics.umami.is/script.js"
+      data-website-id={PUBLIC_UMAMI_ANALYTICS}
     ></script>
   {/if}
 </svelte:head>
