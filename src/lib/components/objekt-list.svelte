@@ -10,6 +10,8 @@
   export let objekts: RemoteObjekt[] = []
   export let address: string
 
+  const ARTMS_START = 4
+
   let sort: string = 'recently-acquired'
   let selectedFilters: Filter[] = []
 
@@ -39,12 +41,12 @@
       const filtered = []
 
       if (existsS) {
-        const S = memberList.slice(4)
+        const S = memberList.slice(ARTMS_START)
         filtered.push(...S.map((x) => x.name))
       }
 
       if (existsA) {
-        const A = memberList.slice(0, 4)
+        const A = memberList.slice(0, ARTMS_START)
         filtered.push(...A.map((x) => x.name))
       }
 
