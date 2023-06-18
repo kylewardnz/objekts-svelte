@@ -42,12 +42,12 @@
 
       if (existsS) {
         const S = memberList.slice(ARTMS_START)
-        filtered.push(...S.map((x) => x.name))
+        filtered.push(...S.map((x) => x.filterValue))
       }
 
       if (existsA) {
         const A = memberList.slice(0, ARTMS_START)
-        filtered.push(...A.map((x) => x.name))
+        filtered.push(...A.map((x) => x.filterValue))
       }
 
       if (!existsS && !existsA) {

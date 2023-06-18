@@ -79,24 +79,24 @@
     <Separator orientation="vertical" />
 
     <!-- all members -->
-    {#each members as { placeholder, name, image, show, color }}
+    {#each members as { placeholder, filterValue, label, image, show, color }}
       {#if show}
         <Tooltip>
           <TooltipTrigger>
-            <button on:click={() => select(name)}>
+            <button on:click={() => select(filterValue)}>
               <Avatar
                 class={cn(
                   'shadow-md transition-all',
-                  $selected.includes(name) && `ring ring-${color ?? 'blue-500'}`
+                  $selected.includes(filterValue) && `ring ring-${color ?? 'blue-500'}`
                 )}
               >
                 <AvatarFallback>{placeholder}</AvatarFallback>
-                <AvatarImage src={image} alt={name} />
+                <AvatarImage src={image} alt={label ?? filterValue} />
               </Avatar>
             </button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>{name}</p>
+            <p>{label ?? filterValue}</p>
           </TooltipContent>
         </Tooltip>
       {/if}
