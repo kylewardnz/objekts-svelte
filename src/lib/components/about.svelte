@@ -20,7 +20,7 @@
     <AlertDialogHeader>
       <AlertDialogTitle>About</AlertDialogTitle>
       <AlertDialogDescription>
-        <p>Not associated with Modhaus, tripleS or ARTMS.</p>
+        <p>Not associated with Modhaus, tripleS, ARTMS or ODD EYE CIRCLE.</p>
         <p>
           Source can be found on <a
             class="underline underline-offset-2 hover:text-foreground"
