@@ -19,7 +19,7 @@ export async function search(term: string): Promise<User[]> {
   if (res.ok) {
     const { results } = await res.json()
 
-    // set reasults in cache with a short expiry
+    // set results in cache with a short expiry
     await redis.set(`search:${term.toLowerCase()}`, results, {
       ex: 60 * 15 // 15 minute expiry
     })
