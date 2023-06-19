@@ -31,9 +31,9 @@
     height={480}
     alt={`${memberName} ${collection} ${num}`}
   />
-  <div class="grid grid-cols-1 grid-rows-3 lg:grid-cols-2 lg:grid-rows-2">
-    <p class="font-bold">{memberName} {collection}</p>
+  <div class="grid grid-cols-2 lg:grid-cols-3 grid-rows-2 lg:grid-rows-1 text-sm lg:text-base">
+    <p class="font-bold col-span-2 lg:col-span-1">{memberName} {collection}</p>
     <p class="flex font-semibold lg:justify-end">{className}</p>
-    <p>#{num} ({tokenId})</p>
+    <p class="flex justify-self-end">#{num}</p>
   </div>
 </div>

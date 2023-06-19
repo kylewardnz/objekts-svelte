@@ -34,7 +34,9 @@
   }
 </script>
 
-<div class="flex flex-row gap-3 lg:justify-center justify-start shrink-0 p-2 overflow-x-auto">
+<div
+  class="flex flex-row gap-3 lg:justify-center items-center justify-start shrink-0 p-2 overflow-x-auto"
+>
   <TooltipProvider>
     <!-- ARTMS -->
     <Tooltip>
