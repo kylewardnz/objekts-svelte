@@ -15,6 +15,8 @@
   let sort: string = 'recently-acquired'
   let selectedFilters: Filter[] = []
 
+  const colNum = (c: string) => parseInt(c.substring(0, c.length - 1))
+
   $: filteredObjekts = filterAll(objekts, selectedFilters, sort, $selected)
 
   function filterAll(input: RemoteObjekt[], filter: Filter[], sort: string, memberList: string[]) {
@@ -27,6 +29,8 @@
         return input.slice().sort((a, b) => b.acquiredAt - a.acquiredAt)
       case 'oldest-acquired':
         return input.slice().sort((a, b) => a.acquiredAt - b.acquiredAt)
+      case 'collection':
+        return input.slice().sort((a, b) => colNum(a.collection) - colNum(b.collection))
       default:
         return input
     }
@@ -92,6 +96,7 @@
     >
       <option value="recently-acquired">Recently Acquired</option>
       <option value="oldest-acquired">Oldest Acquired</option>
+      <option value="collection">Collection No.</option>
     </select>
 
     <!-- filter -->
