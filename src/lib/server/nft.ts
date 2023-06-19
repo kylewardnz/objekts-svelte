@@ -35,6 +35,8 @@ export async function fetchAll(address: string): Promise<Objekt[]> {
 
   return nfts
     .filter((nft) => nft.rawMetadata?.objekt !== undefined)
+    // filter out duplicate tokenIds - ARTMS welcome objekts are on both contracts
+    .filter((nft, index, self) => self.findIndex((n) => n.tokenId === nft.tokenId) === index)
     .map((nft) => ({
       frontImage: nft.rawMetadata?.objekt.frontImage,
       backImage: nft.rawMetadata?.objekt.backImage as string,
