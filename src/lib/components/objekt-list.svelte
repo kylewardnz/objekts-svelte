@@ -108,7 +108,7 @@
 <MemberFilter />
 
 <!-- list -->
-<div class="grid grid-cols-3 items-center gap-2 lg:grid-cols-4 gap-y-8">
+<div class="grid grid-cols-3 items-center gap-2 lg:grid-cols-4 gap-y-8 pb-12">
   {#key filteredObjekts}
     {#each filteredObjekts as objekt}
       <Objekt {...objekt} />

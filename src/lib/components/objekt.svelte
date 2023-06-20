@@ -31,9 +31,10 @@
     height={480}
     alt={`${memberName} ${collection} ${num}`}
   />
-  <div class="grid grid-cols-2 lg:grid-cols-3 grid-rows-2 lg:grid-rows-1 text-sm lg:text-base">
-    <p class="font-bold col-span-2 lg:col-span-1">{memberName} {collection}</p>
-    <p class="flex font-semibold lg:justify-end">{className}</p>
-    <p class="flex justify-self-end">#{num}</p>
+  <div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-3 text-xs md:text-base w-full lg:px-4">
+    <p class="font-bold lg:justify-self-center">{memberName}</p>
+    <p class="font-bold justify-self-end lg:justify-self-center">{collection}</p>
+    <p class="font-semibold lg:justify-self-center">{className}</p>
+    <p class="lg:col-span-3 justify-self-end lg:justify-self-center">#{num}</p>
   </div>
 </div>
