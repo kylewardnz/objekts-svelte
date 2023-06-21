@@ -4,6 +4,7 @@
   import type { Filter, Objekt } from '$lib/types'
   import { generateFilters } from '$lib/utils'
   import { createEventDispatcher } from 'svelte'
+  import { clickOutside } from 'svelte-use-click-outside'
 
   export let objekts: Objekt[]
 
@@ -30,7 +31,7 @@
   }
 </script>
 
-<div class="relative">
+<div class="relative" use:clickOutside={() => (open = false)}>
   <Button
     on:click={() => (open = !open)}
     class="flex flex-row gap-2 w-fit text-base"

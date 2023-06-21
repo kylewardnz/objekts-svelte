@@ -5,6 +5,14 @@
   import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '$components/ui/tooltip'
   import { cn } from '$lib/utils'
   import { selected } from '$lib/store'
+  import { navigating } from '$app/stores'
+
+  // reset selected members when navigating
+  $: {
+    if ($navigating) {
+      $selected = ['SSS', 'ARTMS']
+    }
+  }
 
   $: groupSelected = $selected.includes('SSS') || $selected.includes('ARTMS')
 
