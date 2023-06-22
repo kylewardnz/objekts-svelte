@@ -4,6 +4,7 @@
   import Theme from '$components/theme.svelte'
   import About from '$components/about.svelte'
   import { PUBLIC_UMAMI_ANALYTICS } from '$env/static/public'
+  import { TooltipProvider } from '$components/ui/tooltip'
 </script>
 
 <svelte:head>
@@ -35,5 +36,7 @@
   </div>
 
   <!-- content -->
-  <slot />
+  <TooltipProvider>
+    <slot />
+  </TooltipProvider>
 </div>

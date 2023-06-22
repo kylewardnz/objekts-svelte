@@ -6,6 +6,7 @@
   import Objekt from '$lib/components/objekt.svelte'
   import CopyButton from '$lib/components/copy-button.svelte'
   import ListFilter from '$lib/components/list-filter.svelte'
+  import { Tooltip, TooltipContent, TooltipTrigger } from '$components/ui/tooltip'
 
   export let objekts: RemoteObjekt[] = []
   export let address: string
@@ -84,7 +85,21 @@
     <CopyButton {address} />
   </div>
 
-  <div class="flex justify-center font-bold">{objekts.length} Objekts</div>
+  <div class="flex justify-center font-bold">
+    <Tooltip>
+      <TooltipTrigger>
+        <div class="flex gap-2 items-center">
+          <p>{filteredObjekts.length} Objekts</p>
+          {#if filteredObjekts.length !== objekts.length}
+            <p class="flex sm:hidden text-xs">({objekts.length} total)</p>
+          {/if}
+        </div>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>{objekts.length} total</p>
+      </TooltipContent>
+    </Tooltip>
+  </div>
 
   <!-- sort and filter -->
   <div class="flex flex-row justify-center gap-2 lg:justify-end col-span-2 lg:col-span-1">
