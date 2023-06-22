@@ -7,6 +7,8 @@
   export let collection: string
   export let num: number
   export let tokenId: number
+  export let type: string
+  export let acquiredAt: number
 
   let image = frontImage
   let loading = false

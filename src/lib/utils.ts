@@ -16,13 +16,24 @@ export function generateFilters(input: Objekt[]): Filter[] {
   const properties: (keyof Objekt)[] = ['className', 'season', 'type']
 
   for (const property of properties) {
-    const values = input.map((objekt) => objekt[property]).filter((value, index, self) => self.indexOf(value) === index)
-    filters.push(...values.map((value) => ({
-      label: property === 'className' ? 'class' : property,
-      property,
-      value: value as string,
-    })))
+    const values = input
+      .map((objekt) => objekt[property])
+      .filter((value, index, self) => self.indexOf(value) === index)
+    filters.push(
+      ...values.map((value) => ({
+        label: property === 'className' ? 'class' : property,
+        property,
+        value: value as string
+      }))
+    )
   }
 
   return filters
 }
+
+/**
+ * Determine if a string is an Ethereum address or a user.
+ * @param user string
+ * @returns boolean
+ */
+export const isAddress = (user: string) => /^0x[a-fA-F0-9]{40}$/g.test(user) === true

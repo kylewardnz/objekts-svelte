@@ -1,10 +1,10 @@
 import { find } from '$lib/server/cosmo'
-import { fetchAll } from '$lib/server/nft'
 import { error } from '@sveltejs/kit'
 import type { PageServerLoad } from './$types'
+import { isAddress } from '$lib/utils'
 
 export const load = (async ({ params }) => {
-  const isUser = /^0x[a-fA-F0-9]{40}$/g.test(params.user) === false
+  const isUser = isAddress(params.user) === false
 
   let address: string
   try {
@@ -16,10 +16,9 @@ export const load = (async ({ params }) => {
   try {
     return {
       name: isUser ? params.user : address.slice(0, 6),
-      objekts: await fetchAll(address),
       address
     }
   } catch (e) {
-    throw error(404, 'Error fetching objekts')
+    throw error(404, 'Error fetching user')
   }
 }) satisfies PageServerLoad
