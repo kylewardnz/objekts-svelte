@@ -9,6 +9,7 @@ export type Objekt = {
   num: number
   tokenId: number
   acquiredAt: number
+  transferable: boolean
 }
 
 export type User = {

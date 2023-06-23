@@ -7,18 +7,26 @@
   import CopyButton from '$lib/components/copy-button.svelte'
   import ListFilter from '$lib/components/list-filter.svelte'
   import { Tooltip, TooltipContent, TooltipTrigger } from '$components/ui/tooltip'
+  import InfiniteScroll from 'svelte-infinite-scroll'
 
   export let objekts: RemoteObjekt[] = []
   export let address: string
 
   const ARTMS_START = 4
+  const PAGE_SIZE = 24
 
   let sort: string = 'recently-acquired'
   let selectedFilters: Filter[] = []
+  let page = 0
+
+  // execute filters and pagination
+  $: filteredObjekts = filterAll(objekts, selectedFilters, sort, $selected)
+  $: paginatedObjekts = filteredObjekts.slice().splice(0, PAGE_SIZE * (page + 1))
+
+  // reset page when changing filters
+  $: sort, selectedFilters, $selected, (page = 0)
 
   const colNum = (c: string) => parseInt(c.substring(0, c.length - 1))
-
-  $: filteredObjekts = filterAll(objekts, selectedFilters, sort, $selected)
 
   function filterAll(input: RemoteObjekt[], filter: Filter[], sort: string, memberList: string[]) {
     return filterProperties(sortObjekts(filterMembers(input, memberList), sort), filter)
@@ -123,12 +131,14 @@
 <MemberFilter />
 
 <!-- list -->
-<div class="grid grid-cols-3 items-center gap-2 lg:grid-cols-4 gap-y-8 pb-12">
-  {#key filteredObjekts}
-    {#each filteredObjekts as objekt}
+<div class="grid grid-cols-3 items-center gap-2 lg:grid-cols-4 gap-y-4 pb-12">
+  {#each paginatedObjekts as objekt}
+    {#key objekt.tokenId}
       <Objekt {...objekt} />
-    {:else}
-      <p class="text-center w-full col-span-4">0 objekts found</p>
-    {/each}
-  {/key}
+    {/key}
+  {:else}
+    <p class="text-center w-full col-span-4">0 objekts found</p>
+  {/each}
+
+  <InfiniteScroll threshold={24} on:loadMore={() => page++} window={true} />
 </div>

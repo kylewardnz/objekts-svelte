@@ -13,7 +13,7 @@ export function cn(...inputs: ClassValue[]) {
  */
 export function generateFilters(input: Objekt[]): Filter[] {
   const filters: Filter[] = []
-  const properties: (keyof Objekt)[] = ['className', 'season', 'type']
+  const properties: (keyof Objekt)[] = ['className', 'season', 'type', 'transferable']
 
   for (const property of properties) {
     const values = input

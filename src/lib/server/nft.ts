@@ -48,7 +48,8 @@ export async function fetchByPage(address: string, pageKey: string | null): Prom
         acquiredAt: (nft.acquiredAt?.blockTimestamp
           ? new Date(nft.acquiredAt.blockTimestamp)
           : new Date()
-        ).getTime()
+        ).getTime(),
+        transferable: nft.rawMetadata?.objekt.transferable as boolean
       }))
 
     return {

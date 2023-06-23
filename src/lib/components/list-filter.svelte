@@ -53,10 +53,10 @@
 
       {#each availableFilters as filter}
         <button
-          class="w-full grid grid-cols-2 gap-4 items-center py-1 px-2 hover:bg-accent hover:rounded transition-all capitalize"
+          class="w-full grid grid-cols-4 gap-4 items-center py-1 px-2 hover:bg-accent hover:rounded transition-all capitalize"
           on:click={() => select(filter)}
         >
-          <span class="flex justify-start gap-2 items-center font-semibold">
+          <span class="flex justify-start gap-2 items-center font-semibold col-span-3">
             {#if selectedFilters.includes(filter)}
               <Check class="h-4 w-4" />
             {:else}

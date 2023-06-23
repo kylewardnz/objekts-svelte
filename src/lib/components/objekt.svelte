@@ -1,4 +1,8 @@
 <script lang="ts">
+  import { cn } from '$lib/utils'
+  import { Tooltip, TooltipContent, TooltipTrigger } from '$components/ui/tooltip'
+  import { Lock, Clock } from 'lucide-svelte'
+
   export let frontImage: string
   export let backImage: string
   export let className: string
@@ -9,9 +13,12 @@
   export let tokenId: number
   export let type: string
   export let acquiredAt: number
+  export let transferable: boolean
 
   let image = frontImage
   let loading = false
+
+  const acquired = new Date(acquiredAt).toDateString()
 
   function toggleImage() {
     loading = true
@@ -25,18 +32,40 @@
     on:click={toggleImage}
     on:keydown={toggleImage}
     loading="lazy"
-    class={`aspect-photocard rounded-2xl hover:cursor-pointer hover:shadow-lg hover:scale-105 transition duration-300 ${
-      loading ? 'blur-sm' : ''
-    }`}
+    class={cn(
+      'aspect-photocard rounded-lg md:rounded-2xl hover:cursor-pointer shadow-lg transition duration-300',
+      loading && 'blur-sm'
+    )}
     src={image}
     width={300}
     height={480}
     alt={`${memberName} ${collection} ${num}`}
   />
-  <div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-3 text-xs md:text-base w-full lg:px-4">
-    <p class="font-bold lg:justify-self-center">{memberName}</p>
-    <p class="font-bold justify-self-end lg:justify-self-center">{collection}</p>
-    <p class="font-semibold lg:justify-self-center">{className}</p>
-    <p class="lg:col-span-3 justify-self-end lg:justify-self-center">#{num}</p>
+  <div class="flex flex-col text-xs md:text-lg w-full lg:px-4">
+    <div class="flex flex-row justify-between items-center">
+      <p class="font-bold">{memberName} {collection}</p>
+      <Tooltip>
+        <TooltipTrigger>
+          <Clock class="w-4 h-4 lg:w-6 lg:h-6" />
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Acquired: {acquired}</p>
+        </TooltipContent>
+      </Tooltip>
+    </div>
+
+    <div class="flex flex-row justify-between items-center">
+      <p>{className} #{num}</p>
+      {#if !transferable}
+        <Tooltip>
+          <TooltipTrigger>
+            <Lock class="w-4 h-4 lg:w-6 lg:h-6" />
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Not transferable</p>
+          </TooltipContent>
+        </Tooltip>
+      {/if}
+    </div>
   </div>
 </div>

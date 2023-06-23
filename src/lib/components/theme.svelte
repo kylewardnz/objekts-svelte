@@ -37,8 +37,10 @@
     // update page styling
     if (dark) {
       document.documentElement.classList.add('dark')
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#030711')
     } else {
       document.documentElement.classList.remove('dark')
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#FAF8FE')
     }
 
     // store the theme as a local override
@@ -53,30 +55,6 @@
 </script>
 
 <svelte:head>
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
-  <!-- set dark mode class based on user preference / device settings (in head to avoid FOUC) -->
   <script>
     if (
       localStorage.theme === 'dark' ||
