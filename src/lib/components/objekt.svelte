@@ -7,11 +7,8 @@
   export let backImage: string
   export let className: string
   export let memberName: string
-  export let season: string
   export let collection: string
   export let num: number
-  export let tokenId: number
-  export let type: string
   export let acquiredAt: number
   export let transferable: boolean
 
@@ -42,19 +39,22 @@
     alt={`${memberName} ${collection} ${num}`}
   />
   <div class="flex flex-col text-xs md:text-lg w-full lg:px-4">
-    <div class="flex flex-row justify-between items-center">
+    <div class="flex justify-between items-center">
       <p class="font-bold">{memberName} {collection}</p>
-      <Tooltip>
-        <TooltipTrigger>
-          <Clock class="w-4 h-4 lg:w-6 lg:h-6" />
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Acquired: {acquired}</p>
-        </TooltipContent>
-      </Tooltip>
+      <!-- because tooltip doesn't work on mobile... -->
+      <div class="hidden lg:block">
+        <Tooltip>
+          <TooltipTrigger>
+            <Clock class="w-4 h-4 lg:w-6 lg:h-6" />
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Acquired: {acquired}</p>
+          </TooltipContent>
+        </Tooltip>
+      </div>
     </div>
 
-    <div class="flex flex-row justify-between items-center">
+    <div class="flex justify-between items-center">
       <p>{className} #{num}</p>
       {#if !transferable}
         <Tooltip>
