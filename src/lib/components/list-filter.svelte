@@ -2,7 +2,7 @@
   import { Check, Filter as FilterIcon, ListRestart } from 'lucide-svelte'
   import { Button } from './ui/button'
   import type { Filter, Objekt } from '$lib/types'
-  import { generateFilters } from '$lib/utils'
+  import { cn, generateFilters } from '$lib/utils'
   import { createEventDispatcher } from 'svelte'
   import { clickOutside } from 'svelte-use-click-outside'
 
@@ -34,15 +34,25 @@
 <div class="relative" use:clickOutside={() => (open = false)}>
   <Button
     on:click={() => (open = !open)}
-    class="flex flex-row gap-2 w-fit text-base"
+    class={cn(
+      'flex flex-row gap-2 w-fit text-base border-2 border-transparent',
+      selectedFilters.length > 0 && 'border-blue-500'
+    )}
     variant="ghost"
   >
-    Filter <FilterIcon class="w-4 h-4" />
+    <span>Filter</span>
+    <div class="flex justify-center items-center w-4">
+      {#if selectedFilters.length === 0}
+        <FilterIcon class="w-4 h-4" />
+      {:else}
+        <span class="text-blue-500">{selectedFilters.length}</span>
+      {/if}
+    </div>
   </Button>
 
   {#if open}
     <div
-      class="absolute w-48 z-50 flex flex-col bg-background -left-24 rounded p-1 mt-[1px] text-accent-foreground text-sm border border-accent shadow animate-in slide-in-from-top-1"
+      class="absolute w-48 z-50 flex flex-col bg-background -left-[5.5rem] rounded p-1 mt-[1px] text-accent-foreground text-sm border border-accent shadow animate-in slide-in-from-top-1"
     >
       <button
         class="flex gap-2 items-center py-1 px-2 hover:bg-accent hover:rounded transition-all"
