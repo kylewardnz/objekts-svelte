@@ -132,10 +132,8 @@
 
 <!-- list -->
 <div class="grid grid-cols-3 items-center gap-2 lg:grid-cols-4 gap-y-4 pb-12">
-  {#each paginatedObjekts as objekt}
-    {#key objekt.tokenId}
-      <Objekt {...objekt} />
-    {/key}
+  {#each paginatedObjekts as objekt (objekt.tokenId)}
+    <Objekt {...objekt} />
   {:else}
     <p class="text-center w-full col-span-4">0 objekts found</p>
   {/each}
