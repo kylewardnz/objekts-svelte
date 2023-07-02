@@ -10,6 +10,7 @@
   let totalCount = 0
   let objekts: Objekt[] = []
   let loading = true
+  let error = false
 
   $: percentage = Math.round((objekts.length / totalCount) * 100) || 0
 
@@ -28,7 +29,11 @@
   }
 
   onMount(async () => {
-    await fetchObjekts()
+    try {
+      await fetchObjekts()
+    } catch (err) {
+      error = true
+    }
   })
 </script>
 
@@ -41,13 +46,16 @@
     <div class="flex flex-col gap-1 justify-center items-center py-48">
       <div class="w-3/4 md:w-1/3 bg-accent dark:bg-foreground h-1 shadow-sm rounded">
         <div
-          class={cn('bg-blue-500 h-1 rounded transition-all duration-300')}
+          class={cn('bg-blue-500 h-1 rounded transition-all duration-300', error && 'bg-red-500')}
           style:width={`${percentage}%`}
         />
       </div>
       <p class="text-lg">Fetching objekts!</p>
-      {#if totalCount}
+      {#if totalCount && error === false}
         <p class="text-xs">{objekts.length} / {totalCount}</p>
+      {/if}
+      {#if error}
+        <p class="text-xs">An error occurred, please try again</p>
       {/if}
     </div>
   {:else}
