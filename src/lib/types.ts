@@ -23,3 +23,9 @@ export type Filter = {
   property: keyof Objekt
   value: string
 }
+
+export type ObjektPage = {
+  totalCount: number
+  objekts: Objekt[]
+  pageKey: string | undefined
+}

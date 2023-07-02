@@ -1,12 +1,7 @@
-import { Alchemy, Network, NftOrdering, type OwnedNft } from 'alchemy-sdk'
+import { Alchemy, Network, NftOrdering } from 'alchemy-sdk'
 import { ALCHEMY_KEY } from '$env/static/private'
-import type { Objekt } from '$lib/types'
+import type { ObjektPage } from '$lib/types'
 import { error } from '@sveltejs/kit'
-
-type ObjektPage = {
-  objekts: Objekt[]
-  pageKey: string | undefined
-}
 
 const CONTRACTS = [
   '0xA4B37bE40F7b231Ee9574c4b16b7DDb7EAcDC99B', // tripleS
@@ -53,6 +48,7 @@ export async function fetchByPage(address: string, pageKey: string | null): Prom
       }))
 
     return {
+      totalCount: response.totalCount,
       objekts: mappedObjekts,
       pageKey: response.pageKey
     }
