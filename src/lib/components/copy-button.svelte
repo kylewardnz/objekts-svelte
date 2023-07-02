@@ -28,7 +28,7 @@
 <div class="relative" use:clickOutside={() => (open = false)}>
   <Button
     on:click={() => (open = !open)}
-    class="flex flex-row gap-2 w-fit text-base"
+    class="flex flex-row gap-2 w-fit text-base border-2 border-accent"
     variant="ghost"
   >
     <Share2 class="w-4 h-4" /> Share
@@ -36,11 +36,11 @@
 
   {#if open}
     <div
-      class="absolute flex flex-col bg-background rounded p-1 mt-[1px] text-accent-foreground text-sm border border-accent shadow animate-in slide-in-from-top-1"
+      class="absolute z-50 flex flex-col bg-background rounded p-1 mt-[1px] text-accent-foreground text-sm border border-accent shadow animate-in slide-in-from-top-1"
     >
       {#each actions as { icon, label, action, text }}
         <button
-          class="flex flex-row gap-2 items-center py-1 px-2 hover:bg-accent hover:rounded transition-all"
+          class="flex flex-row gap-4 items-center py-1 px-2 hover:bg-accent hover:rounded transition-all"
           on:svelte-copy={action}
           use:copy={text}
         >

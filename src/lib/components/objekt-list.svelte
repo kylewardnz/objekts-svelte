@@ -8,6 +8,7 @@
   import ListFilter from '$lib/components/list-filter.svelte'
   import { Tooltip, TooltipContent, TooltipTrigger } from '$components/ui/tooltip'
   import InfiniteScroll from 'svelte-infinite-scroll'
+  import SortSelector from './sort-selector.svelte'
 
   export let objekts: RemoteObjekt[] = []
   export let address: string
@@ -38,8 +39,14 @@
         return input.slice().sort((a, b) => b.acquiredAt - a.acquiredAt)
       case 'oldest-acquired':
         return input.slice().sort((a, b) => a.acquiredAt - b.acquiredAt)
-      case 'collection':
+      case 'collection-asc':
         return input.slice().sort((a, b) => colNum(a.collection) - colNum(b.collection))
+      case 'collection-desc':
+        return input.slice().sort((a, b) => colNum(b.collection) - colNum(a.collection))
+      case 'serial-asc':
+        return input.slice().sort((a, b) => a.num - b.num)
+      case 'serial-desc':
+        return input.slice().sort((a, b) => b.num - a.num)
       default:
         return input
     }
@@ -112,18 +119,10 @@
   <!-- sort and filter -->
   <div class="flex flex-row justify-center gap-2 lg:justify-end col-span-2 lg:col-span-1">
     <!-- sort -->
-    <select
-      class="w-[180px] p-2 rounded-md bg-accent focus:outline-none"
-      bind:value={sort}
-      on:change={(e) => (sort = e.currentTarget.value)}
-    >
-      <option value="recently-acquired">Recently Acquired</option>
-      <option value="oldest-acquired">Oldest Acquired</option>
-      <option value="collection">Collection No.</option>
-    </select>
+    <SortSelector on:change={(e) => (sort = e.detail)} />
 
     <!-- filter -->
-    <ListFilter {objekts} on:filter={(e) => (selectedFilters = e.detail)} />
+    <ListFilter {objekts} on:change={(e) => (selectedFilters = e.detail)} />
   </div>
 </div>
 

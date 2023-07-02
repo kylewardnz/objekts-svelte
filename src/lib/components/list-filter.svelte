@@ -22,12 +22,12 @@
       selectedFilters = [...selectedFilters, filter]
     }
 
-    dispatch('filter', selectedFilters)
+    dispatch('change', selectedFilters)
   }
 
   function reset() {
     selectedFilters = []
-    dispatch('filter', selectedFilters)
+    dispatch('change', selectedFilters)
   }
 </script>
 
@@ -35,7 +35,7 @@
   <Button
     on:click={() => (open = !open)}
     class={cn(
-      'flex flex-row gap-2 w-fit text-base border-2 border-transparent',
+      'flex flex-row gap-2 w-fit text-base border-2 border-accent',
       selectedFilters.length > 0 && 'border-blue-500'
     )}
     variant="ghost"
@@ -58,7 +58,7 @@
         class="flex gap-2 items-center py-1 px-2 hover:bg-accent hover:rounded transition-all"
         on:click={reset}
       >
-        <ListRestart class="h-4 w-4" /> Reset Filters
+        <ListRestart class="h-5 w-5" /> Reset Filters
       </button>
 
       {#each availableFilters as filter}
@@ -68,9 +68,9 @@
         >
           <span class="flex justify-start gap-2 items-center font-semibold col-span-3">
             {#if selectedFilters.includes(filter)}
-              <Check class="h-4 w-4" />
+              <Check class="h-5 w-5" />
             {:else}
-              <div class="h-4 w-4" />
+              <div class="h-5 w-5" />
             {/if}
             {filter.label}
           </span>
