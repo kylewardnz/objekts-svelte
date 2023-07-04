@@ -89,7 +89,7 @@
       for (const filter of selectedFilters) {
         matches.push(objekt[filter.property] === filter.value)
       }
-      return matches.some((x) => x === true)
+      return matches.every((x) => x === true)
     })
   }
 </script>
