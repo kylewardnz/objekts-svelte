@@ -13,7 +13,7 @@
   export let objekts: RemoteObjekt[] = []
   export let address: string
 
-  const ARTMS_START = 4
+  const ARTMS_START = 5
   const PAGE_SIZE = 24
 
   let sort: string = 'recently-acquired'

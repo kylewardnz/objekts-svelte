@@ -8,6 +8,14 @@
     "color": "pink-500"
   },
   {
+    "placeholder": "HS",
+    "filterValue": "HaSeul",
+    "label": null,
+    "image": "/members/HaSeul.jpg",
+    "show": true,
+    "color": "green-700"
+  },
+  {
     "placeholder": "KL",
     "filterValue": "KimLip",
     "label": "Kim Lip",

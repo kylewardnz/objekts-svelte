@@ -61,5 +61,5 @@ module.exports = {
     }
   },
   plugins: [require('tailwindcss-animate')],
-  safelist: ['ring-pink-500', 'ring-red-600', 'ring-blue-700', 'ring-purple-500']
+  safelist: ['ring-pink-500', 'ring-green-700', 'ring-red-600', 'ring-blue-700', 'ring-purple-500']
 }
