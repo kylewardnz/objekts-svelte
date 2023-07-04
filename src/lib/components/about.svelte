@@ -21,13 +21,6 @@
       <AlertDialogTitle>About</AlertDialogTitle>
       <AlertDialogDescription>
         <p>Not associated with Modhaus, Cosmo, tripleS, ARTMS or ODD EYE CIRCLE.</p>
-        <p>
-          Source can be found on <a
-            class="underline underline-offset-2 hover:text-foreground"
-            href="https://github.com/teamreflex/objekts-svelte"
-            target="_blank">GitHub</a
-          >.
-        </p>
       </AlertDialogDescription>
     </AlertDialogHeader>
     <AlertDialogFooter>
