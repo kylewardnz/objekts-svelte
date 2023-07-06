@@ -19,9 +19,10 @@
   let sort: string = 'recently-acquired'
   let selectedFilters: Filter[] = []
   let page = 0
+  let mode: 'and' | 'or' = 'and'
 
   // execute filters and pagination
-  $: filteredObjekts = filterAll(objekts, selectedFilters, sort, $selected)
+  $: filteredObjekts = filterAll(objekts, selectedFilters, sort, $selected, mode)
   $: paginatedObjekts = filteredObjekts.slice().splice(0, PAGE_SIZE * (page + 1))
 
   // reset page when changing filters
@@ -29,8 +30,14 @@
 
   const colNum = (c: string) => parseInt(c.substring(0, c.length - 1))
 
-  function filterAll(input: RemoteObjekt[], filter: Filter[], sort: string, memberList: string[]) {
-    return filterProperties(sortObjekts(filterMembers(input, memberList), sort), filter)
+  function filterAll(
+    input: RemoteObjekt[],
+    filter: Filter[],
+    sort: string,
+    memberList: string[],
+    mode: 'and' | 'or'
+  ) {
+    return filterProperties(sortObjekts(filterMembers(input, memberList), sort), filter, mode)
   }
 
   function sortObjekts(input: RemoteObjekt[], s: string) {
@@ -78,7 +85,7 @@
     })
   }
 
-  function filterProperties(input: RemoteObjekt[], selectedFilters: Filter[]) {
+  function filterProperties(input: RemoteObjekt[], selectedFilters: Filter[], mode: 'and' | 'or') {
     return input.filter((objekt) => {
       // show all by default
       if (selectedFilters.length === 0) {
@@ -89,7 +96,7 @@
       for (const filter of selectedFilters) {
         matches.push(objekt[filter.property] === filter.value)
       }
-      return matches.every((x) => x === true)
+      return mode === 'and' ? matches.every((x) => x === true) : matches.some((x) => x === true)
     })
   }
 </script>
@@ -122,7 +129,11 @@
     <SortSelector on:change={(e) => (sort = e.detail)} />
 
     <!-- filter -->
-    <ListFilter {objekts} on:change={(e) => (selectedFilters = e.detail)} />
+    <ListFilter
+      {objekts}
+      on:change={(e) => (selectedFilters = e.detail)}
+      on:mode={(e) => (mode = e.detail)}
+    />
   </div>
 </div>
 

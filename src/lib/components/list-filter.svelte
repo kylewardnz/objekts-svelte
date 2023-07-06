@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Check, Filter as FilterIcon, ListRestart } from 'lucide-svelte'
-  import { Button } from './ui/button'
+  import { Check, Filter as FilterIcon, ListRestart, Maximize, Minimize } from 'lucide-svelte'
+  import { Button } from '$components/ui/button'
   import type { Filter, Objekt } from '$lib/types'
   import { cn, generateFilters } from '$lib/utils'
   import { createEventDispatcher } from 'svelte'
@@ -14,6 +14,11 @@
 
   let open = false
   let selectedFilters: Filter[] = []
+  let mode: 'and' | 'or' = 'and'
+
+  $: {
+    dispatch('mode', mode)
+  }
 
   function select(filter: Filter) {
     if (selectedFilters.includes(filter)) {
@@ -52,7 +57,7 @@
 
   {#if open}
     <div
-      class="absolute w-48 z-50 flex flex-col bg-background -left-[5.5rem] rounded p-1 mt-[1px] text-accent-foreground text-sm border border-accent shadow animate-in slide-in-from-top-1"
+      class="absolute w-48 z-10 flex flex-col bg-background -left-[5.5rem] rounded p-1 mt-[1px] text-accent-foreground text-sm border border-accent shadow animate-in slide-in-from-top-1"
     >
       <button
         class="flex gap-2 items-center py-1 px-2 hover:bg-accent hover:rounded transition-all"
@@ -60,6 +65,28 @@
       >
         <ListRestart class="h-5 w-5" /> Reset Filters
       </button>
+
+      <div class="flex gap-1">
+        <button
+          class={cn(
+            'w-full flex gap-2 items-center justify-center py-1 px-2 hover:bg-accent rounded transition-all',
+            mode === 'and' && 'bg-accent'
+          )}
+          on:click={() => (mode = 'and')}
+        >
+          <Minimize class="h-5 w-5" />
+        </button>
+
+        <button
+          class={cn(
+            'w-full flex gap-2 items-center justify-center py-1 px-2 hover:bg-accent rounded transition-all',
+            mode === 'or' && 'bg-accent'
+          )}
+          on:click={() => (mode = 'or')}
+        >
+          <Maximize class="h-5 w-5" />
+        </button>
+      </div>
 
       {#each availableFilters as filter}
         <button
