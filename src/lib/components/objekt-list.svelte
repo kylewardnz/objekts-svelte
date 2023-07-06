@@ -9,6 +9,7 @@
   import { Tooltip, TooltipContent, TooltipTrigger } from '$components/ui/tooltip'
   import InfiniteScroll from 'svelte-infinite-scroll'
   import SortSelector from './sort-selector.svelte'
+  import { ChevronDown } from 'lucide-svelte'
 
   export let objekts: RemoteObjekt[] = []
   export let address: string
@@ -147,6 +148,13 @@
   {:else}
     <p class="text-center w-full col-span-4">0 objekts found</p>
   {/each}
+
+  <!-- load more indicator -->
+  {#if paginatedObjekts.length !== filteredObjekts.length}
+    <div class="flex justify-center col-span-3 lg:col-span-4 py-12">
+      <ChevronDown class="w-16 h-16 animate-bounce" />
+    </div>
+  {/if}
 
   <InfiniteScroll threshold={24} on:loadMore={() => page++} window={true} />
 </div>
