@@ -34,8 +34,8 @@
       loading && 'blur-sm'
     )}
     src={image}
-    width={300}
-    height={480}
+    width={291}
+    height={450}
     alt={`${memberName} ${collection} ${num}`}
   />
   <div class="flex flex-col text-xs md:text-lg w-full lg:px-4">

@@ -3,6 +3,8 @@ import { ALCHEMY_KEY } from '$env/static/private'
 import type { ObjektPage } from '$lib/types'
 import { error } from '@sveltejs/kit'
 
+const REGEX = /4x$/i
+
 const CONTRACTS = [
   '0xA4B37bE40F7b231Ee9574c4b16b7DDb7EAcDC99B', // tripleS
   '0x0fB69F54bA90f17578a59823E09e5a1f8F3FA200' // ARTMS
@@ -31,8 +33,8 @@ export async function fetchByPage(address: string, pageKey: string | null): Prom
       // filter out duplicate tokenIds - ARTMS welcome objekts are on both contracts
       .filter((nft, index, self) => self.findIndex((n) => n.tokenId === nft.tokenId) === index)
       .map((nft) => ({
-        frontImage: nft.rawMetadata?.objekt.frontImage,
-        backImage: nft.rawMetadata?.objekt.backImage as string,
+        frontImage: (nft.rawMetadata?.objekt.frontImage as string).replace(REGEX, '1x'),
+        backImage: (nft.rawMetadata?.objekt.backImage as string).replace(REGEX, '1x'),
         className: nft.rawMetadata?.objekt.class as string,
         memberName: nft.rawMetadata?.objekt.member as string,
         season: nft.rawMetadata?.objekt.season as string,
