@@ -3,7 +3,7 @@
     "placeholder": "HJ",
     "filterValue": "HeeJin",
     "label": null,
-    "image": "/members/HeeJin.png",
+    "image": "/members/HeeJin.webp",
     "show": true,
     "color": "pink-500"
   },
@@ -11,7 +11,7 @@
     "placeholder": "HS",
     "filterValue": "HaSeul",
     "label": null,
-    "image": "/members/HaSeul.jpg",
+    "image": "/members/HaSeul.webp",
     "show": true,
     "color": "green-700"
   },
@@ -19,7 +19,7 @@
     "placeholder": "KL",
     "filterValue": "KimLip",
     "label": "Kim Lip",
-    "image": "/members/KimLip.png",
+    "image": "/members/KimLip.webp",
     "show": true,
     "color": "red-600"
   },
@@ -27,7 +27,7 @@
     "placeholder": "JS",
     "filterValue": "JinSoul",
     "label": null,
-    "image": "/members/JinSoul.png",
+    "image": "/members/JinSoul.webp",
     "show": true,
     "color": "blue-700"
   },
@@ -35,7 +35,7 @@
     "placeholder": "CR",
     "filterValue": "Choerry",
     "label": null,
-    "image": "/members/Choerry.png",
+    "image": "/members/Choerry.webp",
     "show": true,
     "color": "purple-500"
   },
@@ -44,7 +44,7 @@
     "placeholder": "SY",
     "filterValue": "SeoYeon",
     "label": null,
-    "image": "/members/SeoYeon.jpg",
+    "image": "/members/SeoYeon.webp",
     "show": true,
     "color": null
   },
@@ -52,7 +52,7 @@
     "placeholder": "HR",
     "filterValue": "HyeRin",
     "label": null,
-    "image": "/members/HyeRin.jpg",
+    "image": "/members/HyeRin.webp",
     "show": true,
     "color": null
   },
@@ -60,7 +60,7 @@
     "placeholder": "JW",
     "filterValue": "JiWoo",
     "label": null,
-    "image": "/members/JiWoo.jpg",
+    "image": "/members/JiWoo.webp",
     "show": true,
     "color": null
   },
@@ -68,7 +68,7 @@
     "placeholder": "CY",
     "filterValue": "ChaeYeon",
     "label": null,
-    "image": "/members/ChaeYeon.jpg",
+    "image": "/members/ChaeYeon.webp",
     "show": true,
     "color": null
   },
@@ -76,7 +76,7 @@
     "placeholder": "YY",
     "filterValue": "YooYeon",
     "label": null,
-    "image": "/members/YooYeon.jpg",
+    "image": "/members/YooYeon.webp",
     "show": true,
     "color": null
   },
@@ -84,7 +84,7 @@
     "placeholder": "SM",
     "filterValue": "SooMin",
     "label": null,
-    "image": "/members/SooMin.png",
+    "image": "/members/SooMin.webp",
     "show": true,
     "color": null
   },
@@ -92,7 +92,7 @@
     "placeholder": "NK",
     "filterValue": "NaKyoung",
     "label": null,
-    "image": "/members/NaKyoung.png",
+    "image": "/members/NaKyoung.webp",
     "show": true,
     "color": null
   },
@@ -100,7 +100,7 @@
     "placeholder": "YB",
     "filterValue": "YuBin",
     "label": null,
-    "image": "/members/YuBin.png",
+    "image": "/members/YuBin.webp",
     "show": true,
     "color": null
   },
@@ -108,7 +108,7 @@
     "placeholder": "KD",
     "filterValue": "Kaede",
     "label": null,
-    "image": "/members/Kaede.jpg",
+    "image": "/members/Kaede.webp",
     "show": true,
     "color": null
   },
@@ -116,7 +116,7 @@
     "placeholder": "DH",
     "filterValue": "DaHyun",
     "label": null,
-    "image": "/members/DaHyun.png",
+    "image": "/members/DaHyun.webp",
     "show": true,
     "color": null
   },
@@ -124,7 +124,7 @@
     "placeholder": "KT",
     "filterValue": "Kotone",
     "label": null,
-    "image": "/members/Kotone.png",
+    "image": "/members/Kotone.webp",
     "show": true,
     "color": null
   },
@@ -132,7 +132,7 @@
     "placeholder": "YJ",
     "filterValue": "YeonJi",
     "label": null,
-    "image": "/members/YeonJi.png",
+    "image": "/members/YeonJi.webp",
     "show": true,
     "color": null
   },
@@ -140,7 +140,7 @@
     "placeholder": "NE",
     "filterValue": "Nien",
     "label": null,
-    "image": "/members/Nien.png",
+    "image": "/members/Nien.webp",
     "show": true,
     "color": null
   },
@@ -148,7 +148,7 @@
     "placeholder": "SH",
     "filterValue": "SoHyun",
     "label": null,
-    "image": "/members/SoHyun.png",
+    "image": "/members/SoHyun.webp",
     "show": true,
     "color": null
   },
@@ -156,7 +156,7 @@
     "placeholder": "XY",
     "filterValue": "Xinyu",
     "label": null,
-    "image": "/members/Xinyu.jpg",
+    "image": "/members/Xinyu.webp",
     "show": true,
     "color": null
   },

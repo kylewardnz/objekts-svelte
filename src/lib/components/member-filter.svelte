@@ -56,7 +56,7 @@
           )}
         >
           <AvatarFallback>A</AvatarFallback>
-          <AvatarImage src="/members/ARTMS.png" alt="ARTMS" />
+          <AvatarImage src="/members/ARTMS.webp" alt="ARTMS" />
         </Avatar>
       </button>
     </TooltipTrigger>
@@ -73,7 +73,7 @@
           class={cn('shadow-md transition-all', $selected.includes('SSS') && 'ring ring-blue-500')}
         >
           <AvatarFallback>S</AvatarFallback>
-          <AvatarImage src="/members/tripleS.png" alt="tripleS" />
+          <AvatarImage src="/members/tripleS.webp" alt="tripleS" />
         </Avatar>
       </button>
     </TooltipTrigger>

@@ -91,7 +91,7 @@
           >
             <img
               class={cn('rounded-full w-8 h-8', profileImageUrl == '' && 'bg-accent p-1')}
-              src={profileImageUrl || '/profile.png'}
+              src={profileImageUrl || '/profile.webp'}
               alt={nickname}
             />
             <span class="justify-start">{nickname}</span>
