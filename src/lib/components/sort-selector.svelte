@@ -9,15 +9,8 @@
     ArrowDownNarrowWide
   } from 'lucide-svelte'
   import { Button } from './ui/button'
-  import { createEventDispatcher } from 'svelte'
   import { clickOutside } from 'svelte-use-click-outside'
   import { cn } from '$lib/utils'
-
-  type Sort = {
-    value: string
-    label: string
-    icon: any
-  }
 
   const availableSorts = [
     { value: 'recently-acquired', label: 'Recently Acquired', icon: CalendarPlus },
@@ -26,17 +19,18 @@
     { value: 'collection-desc', label: 'Highest Collection', icon: ArrowDownWideNarrow },
     { value: 'serial-asc', label: 'Lowest Serial', icon: ArrowDown01 },
     { value: 'serial-desc', label: 'Highest Serial', icon: ArrowDown10 }
-  ]
+  ] as const
 
-  const dispatch = createEventDispatcher()
+  type Sort = (typeof availableSorts)[number]
 
+  export let value: Sort['value']
   let open = false
-  let selected = availableSorts[0]
+  let selected: Sort = availableSorts[0]
 
   function select(sort: Sort) {
     selected = sort
+    value = sort.value
     open = false
-    dispatch('change', selected.value)
   }
 </script>
 

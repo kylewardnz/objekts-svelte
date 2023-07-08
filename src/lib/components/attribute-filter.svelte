@@ -3,36 +3,26 @@
   import { Button } from '$components/ui/button'
   import type { Filter, Objekt } from '$lib/types'
   import { cn, generateFilters } from '$lib/utils'
-  import { createEventDispatcher } from 'svelte'
   import { clickOutside } from 'svelte-use-click-outside'
 
   export let objekts: Objekt[]
 
   const availableFilters = generateFilters(objekts)
 
-  const dispatch = createEventDispatcher()
-
   let open = false
-  let selectedFilters: Filter[] = []
-  let mode: 'and' | 'or' = 'and'
-
-  $: {
-    dispatch('mode', mode)
-  }
+  export let filters: Filter[] = []
+  export let mode: 'and' | 'or' = 'and'
 
   function select(filter: Filter) {
-    if (selectedFilters.includes(filter)) {
-      selectedFilters = selectedFilters.filter((f) => f !== filter)
+    if (filters.includes(filter)) {
+      filters = filters.filter((f) => f !== filter)
     } else {
-      selectedFilters = [...selectedFilters, filter]
+      filters = [...filters, filter]
     }
-
-    dispatch('change', selectedFilters)
   }
 
   function reset() {
-    selectedFilters = []
-    dispatch('change', selectedFilters)
+    filters = []
   }
 </script>
 
@@ -41,16 +31,16 @@
     on:click={() => (open = !open)}
     class={cn(
       'flex flex-row gap-2 w-fit text-base border-2 border-accent',
-      selectedFilters.length > 0 && 'border-blue-500'
+      filters.length > 0 && 'border-blue-500'
     )}
     variant="ghost"
   >
     <span>Filter</span>
     <div class="flex justify-center items-center w-4">
-      {#if selectedFilters.length === 0}
+      {#if filters.length === 0}
         <FilterIcon class="w-4 h-4" />
       {:else}
-        <span class="text-blue-500">{selectedFilters.length}</span>
+        <span class="text-blue-500">{filters.length}</span>
       {/if}
     </div>
   </Button>
@@ -94,7 +84,7 @@
           on:click={() => select(filter)}
         >
           <span class="flex justify-start gap-2 items-center font-semibold col-span-3">
-            {#if selectedFilters.includes(filter)}
+            {#if filters.includes(filter)}
               <Check class="h-5 w-5" />
             {:else}
               <div class="h-5 w-5" />

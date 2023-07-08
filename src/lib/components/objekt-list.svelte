@@ -1,105 +1,40 @@
 <script lang="ts">
-  import memberList from '../../members.json'
   import type { Objekt as RemoteObjekt, Filter } from '$lib/types'
   import { selected } from '$lib/store'
   import MemberFilter from '$lib/components/member-filter.svelte'
   import Objekt from '$lib/components/objekt.svelte'
   import CopyButton from '$lib/components/copy-button.svelte'
-  import ListFilter from '$lib/components/list-filter.svelte'
+  import AttributeFilter from '$components/attribute-filter.svelte'
   import { Tooltip, TooltipContent, TooltipTrigger } from '$components/ui/tooltip'
   import InfiniteScroll from 'svelte-infinite-scroll'
   import SortSelector from './sort-selector.svelte'
   import { ChevronDown } from 'lucide-svelte'
+  import { executeFilters } from '$lib/filtering'
 
   export let objekts: RemoteObjekt[] = []
   export let address: string
 
-  const ARTMS_START = 5
   const PAGE_SIZE = 24
 
-  let sort: string = 'recently-acquired'
+  let sort = 'recently-acquired' as const
   let selectedFilters: Filter[] = []
   let page = 0
-  let mode: 'and' | 'or' = 'and'
+  let filterMode: 'and' | 'or' = 'and'
 
-  // execute filters and pagination
-  $: filteredObjekts = filterAll(objekts, selectedFilters, sort, $selected, mode)
+  // execute filters
+  $: filteredObjekts = executeFilters({
+    input: objekts,
+    filters: selectedFilters,
+    sort,
+    members: $selected,
+    filterMode
+  })
+
+  // execute pagination
   $: paginatedObjekts = filteredObjekts.slice().splice(0, PAGE_SIZE * (page + 1))
 
   // reset page when changing filters
   $: sort, selectedFilters, $selected, (page = 0)
-
-  const colNum = (c: string) => parseInt(c.substring(0, c.length - 1))
-
-  function filterAll(
-    input: RemoteObjekt[],
-    filter: Filter[],
-    sort: string,
-    memberList: string[],
-    mode: 'and' | 'or'
-  ) {
-    return filterProperties(sortObjekts(filterMembers(input, memberList), sort), filter, mode)
-  }
-
-  function sortObjekts(input: RemoteObjekt[], s: string) {
-    switch (s) {
-      case 'recently-acquired':
-        return input.slice().sort((a, b) => b.acquiredAt - a.acquiredAt)
-      case 'oldest-acquired':
-        return input.slice().sort((a, b) => a.acquiredAt - b.acquiredAt)
-      case 'collection-asc':
-        return input.slice().sort((a, b) => colNum(a.collection) - colNum(b.collection))
-      case 'collection-desc':
-        return input.slice().sort((a, b) => colNum(b.collection) - colNum(a.collection))
-      case 'serial-asc':
-        return input.slice().sort((a, b) => a.num - b.num)
-      case 'serial-desc':
-        return input.slice().sort((a, b) => b.num - a.num)
-      default:
-        return input
-    }
-  }
-
-  function filterMembers(input: RemoteObjekt[], members: string[]) {
-    if (members.length === 0) return input
-
-    return input.filter((objekt) => {
-      const existsS = members.includes('SSS')
-      const existsA = members.includes('ARTMS')
-      const filtered = []
-
-      if (existsS) {
-        const S = memberList.slice(ARTMS_START)
-        filtered.push(...S.map((x) => x.filterValue))
-      }
-
-      if (existsA) {
-        const A = memberList.slice(0, ARTMS_START)
-        filtered.push(...A.map((x) => x.filterValue))
-      }
-
-      if (!existsS && !existsA) {
-        filtered.push(...members)
-      }
-
-      return filtered.includes(objekt.memberName)
-    })
-  }
-
-  function filterProperties(input: RemoteObjekt[], selectedFilters: Filter[], mode: 'and' | 'or') {
-    return input.filter((objekt) => {
-      // show all by default
-      if (selectedFilters.length === 0) {
-        return true
-      }
-
-      const matches = []
-      for (const filter of selectedFilters) {
-        matches.push(objekt[filter.property] === filter.value)
-      }
-      return mode === 'and' ? matches.every((x) => x === true) : matches.some((x) => x === true)
-    })
-  }
 </script>
 
 <!-- copy button, count, sorting -->
@@ -127,14 +62,10 @@
   <!-- sort and filter -->
   <div class="flex flex-row justify-center gap-2 lg:justify-end col-span-2 lg:col-span-1">
     <!-- sort -->
-    <SortSelector on:change={(e) => (sort = e.detail)} />
+    <SortSelector bind:value={sort} />
 
     <!-- filter -->
-    <ListFilter
-      {objekts}
-      on:change={(e) => (selectedFilters = e.detail)}
-      on:mode={(e) => (mode = e.detail)}
-    />
+    <AttributeFilter {objekts} bind:filters={selectedFilters} bind:mode={filterMode} />
   </div>
 </div>
 
