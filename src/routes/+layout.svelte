@@ -25,7 +25,7 @@
 
 <div class="h-[100dvh] container flex flex-col mx-auto gap-6 p-5">
   <!-- nav -->
-  <div class="grid grid-cols-3 items-center h-8">
+  <div class="grid grid-cols-3 items-center h-8 min-h-[2rem]">
     <div class="flex justify-start">
       <Theme />
     </div>
