@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores'
-  import { Hash, Link, Share2 } from 'lucide-svelte'
+  import { Hash, Link, Share2, ExternalLink } from 'lucide-svelte'
   import { Button } from './ui/button'
   import { copy } from 'svelte-copy'
   import { clickOutside } from 'svelte-use-click-outside'
@@ -21,6 +21,15 @@
       label: 'Address',
       action: () => (open = false),
       text: address
+    },
+    {
+      icon: ExternalLink,
+      label: 'PolygonScan',
+      action: () => {
+        open = false
+        window.open(`https://polygonscan.com/address/${address}`, '_blank')
+      },
+      text: `https://polygonscan.com/address/${address}`
     }
   ]
 </script>
