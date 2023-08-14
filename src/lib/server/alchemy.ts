@@ -75,7 +75,7 @@ export async function fetchNftsForOwner({
   })
 
   contracts.forEach((contract) => {
-    params.append('contractAddresses', contract)
+    params.append('contractAddresses[]', contract)
   })
   if (orderBy) {
     params.append('orderBy', orderBy)
