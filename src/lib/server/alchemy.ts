@@ -94,7 +94,7 @@ export async function fetchNftsForOwner({
 
     const data = await res.json()
     return {
-      ownedNfts: data.ownedNfts,
+      ownedNfts: data.ownedNfts ?? [],
       pageKey: data.pageKey ?? undefined,
       totalCount: parseInt(data.totalCount)
     }
