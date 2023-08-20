@@ -13,6 +13,15 @@
 
 <svelte:head>
   <meta name="description" content="View your tripleS and ARTMS objekt collection." />
+  <meta property="og:description" content="View your tripleS and ARTMS objekt collection." />
+  <meta property="og:image" content="/og.png" />
+  <meta property="og:site_name" content="Objekts" />
+  <meta property="og:title" content="Objekts" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Objekts" />
+  <meta name="twitter:description" content="View your tripleS and ARTMS objekt collection." />
+  <meta name="twitter:image" content="/og.png" />
 
   {#if PUBLIC_UMAMI_ANALYTICS}
     <script
