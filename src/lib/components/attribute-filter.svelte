@@ -2,12 +2,12 @@
   import { Check, Filter as FilterIcon, ListRestart, Maximize, Minimize } from 'lucide-svelte'
   import { Button } from '$components/ui/button'
   import type { Filter, Objekt } from '$lib/types'
-  import { cn, generateFilters } from '$lib/utils'
+  import { cn, generateAttributeFilters } from '$lib/utils'
   import { clickOutside } from 'svelte-use-click-outside'
 
   export let objekts: Objekt[]
 
-  const availableFilters = generateFilters(objekts)
+  const availableFilters = generateAttributeFilters(objekts)
 
   let open = false
   export let filters: Filter[] = []

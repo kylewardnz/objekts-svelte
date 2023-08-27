@@ -1,13 +1,14 @@
 <script lang="ts">
   import type { Objekt as RemoteObjekt, Filter } from '$lib/types'
   import { selected } from '$lib/store'
-  import MemberFilter from '$lib/components/member-filter.svelte'
-  import Objekt from '$lib/components/objekt.svelte'
-  import CopyButton from '$lib/components/copy-button.svelte'
+  import MemberFilter from '$components/member-filter.svelte'
+  import Objekt from '$components/objekt.svelte'
+  import CopyButton from '$components/copy-button.svelte'
+  import SortSelector from '$components/sort-selector.svelte'
   import AttributeFilter from '$components/attribute-filter.svelte'
+  import CollectionFilter from '$components/collection-filter.svelte'
   import { Tooltip, TooltipContent, TooltipTrigger } from '$components/ui/tooltip'
   import InfiniteScroll from 'svelte-infinite-scroll'
-  import SortSelector from './sort-selector.svelte'
   import { ChevronDown } from 'lucide-svelte'
   import { executeFilters } from '$lib/filtering'
 
@@ -17,14 +18,16 @@
   const PAGE_SIZE = 24
 
   let sort = 'recently-acquired' as const
-  let selectedFilters: Filter[] = []
+  let attributeFilters: Filter[] = []
+  let collectionFilters: string[] = []
   let page = 0
   let filterMode: 'and' | 'or' = 'and'
 
   // execute filters
   $: filteredObjekts = executeFilters({
     input: objekts,
-    filters: selectedFilters,
+    attributeFilters,
+    collectionFilters,
     sort,
     members: $selected,
     filterMode
@@ -34,7 +37,7 @@
   $: paginatedObjekts = filteredObjekts.slice().splice(0, PAGE_SIZE * (page + 1))
 
   // reset page when changing filters
-  $: sort, selectedFilters, $selected, (page = 0)
+  $: sort, attributeFilters, collectionFilters, $selected, (page = 0)
 </script>
 
 <!-- copy button, count, sorting -->
@@ -60,12 +63,17 @@
   </div>
 
   <!-- sort and filter -->
-  <div class="flex flex-row justify-center gap-2 lg:justify-end col-span-2 lg:col-span-1">
+  <div
+    class="flex flex-row flex-wrap lg:flex-nowrap justify-center gap-2 lg:justify-end col-span-2 lg:col-span-1"
+  >
     <!-- sort -->
     <SortSelector bind:value={sort} />
 
-    <!-- filter -->
-    <AttributeFilter {objekts} bind:filters={selectedFilters} bind:mode={filterMode} />
+    <!-- attribute filter -->
+    <AttributeFilter {objekts} bind:filters={attributeFilters} bind:mode={filterMode} />
+
+    <!-- collection filter -->
+    <CollectionFilter {objekts} bind:filters={collectionFilters} />
   </div>
 </div>
 

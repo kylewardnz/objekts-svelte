@@ -1,9 +1,11 @@
 import type { Filter, Objekt } from './types'
 import memberList from '../members.json'
+import { pipe } from './utils'
 
 type FilterInput = {
   input: Objekt[]
-  filters: Filter[]
+  attributeFilters: Filter[]
+  collectionFilters: string[]
   sort: string
   members: string[]
   filterMode: 'and' | 'or'
@@ -26,8 +28,21 @@ function colNum(c: string) {
  * @param input {@link FilterInput}
  * @returns Objekt[]
  */
-export function executeFilters({ input, filters, sort, members, filterMode }: FilterInput) {
-  return filterProperties(orderBy(filterMembers(input, members), sort), filters, filterMode)
+export function executeFilters({
+  input,
+  attributeFilters,
+  collectionFilters,
+  sort,
+  members,
+  filterMode
+}: FilterInput) {
+  return pipe(
+    input,
+    (obj) => filterMembers(obj, members),
+    (obj) => orderBy(obj, sort),
+    (obj) => filterProperties(obj, attributeFilters, filterMode),
+    (obj) => filterCollections(obj, collectionFilters)
+  )
 }
 
 /**
@@ -90,21 +105,35 @@ function filterMembers(input: Objekt[], members: string[]) {
 /**
  * Filter objekts by selected attribute properties.
  * @param input {@link Objekt[]}
- * @param selectedFilters {@link Filter[]}
+ * @param attributeFilters {@link Filter[]}
  * @param filterMode 'and' | 'or'
  * @returns Objekt[]
  */
-function filterProperties(input: Objekt[], selectedFilters: Filter[], filterMode: 'and' | 'or') {
+function filterProperties(input: Objekt[], attributeFilters: Filter[], filterMode: 'and' | 'or') {
   return input.filter((objekt) => {
     // show all by default
-    if (selectedFilters.length === 0) {
+    if (attributeFilters.length === 0) {
       return true
     }
 
     const matches = []
-    for (const filter of selectedFilters) {
+    for (const filter of attributeFilters) {
       matches.push(objekt[filter.property] === filter.value)
     }
     return filterMode === 'and' ? matches.every((x) => x === true) : matches.some((x) => x === true)
+  })
+}
+
+/**
+ * Filter objekts by selected collections.
+ * @param input {@link Objekt[]}
+ * @param collectionFilters {@link string[]}
+ * @returns Objekt[]
+ */
+function filterCollections(input: Objekt[], collectionFilters: string[]) {
+  if (collectionFilters.length === 0) return input
+
+  return input.filter((objekt) => {
+    return collectionFilters.includes(objekt.collection)
   })
 }
