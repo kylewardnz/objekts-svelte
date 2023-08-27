@@ -80,10 +80,23 @@
     font-family: 'Inter', sans-serif;
 
     overflow-y: scroll;
-    &::-webkit-scrollbar {
-      display: none;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground rounded-full;
+  }
+
+  .dark {
+    ::-webkit-scrollbar-thumb {
+      @apply bg-accent rounded-full;
     }
-    -ms-overflow-style: none;
-    scrollbar-width: none;
   }
 }
