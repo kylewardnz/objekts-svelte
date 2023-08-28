@@ -46,7 +46,7 @@
 
   {#if open}
     <div
-      class="absolute w-36 min-h-fit max-h-60 overflow-y-scroll z-10 flex flex-col bg-background rounded p-1 mt-[1px] text-accent-foreground text-sm border border-accent shadow animate-in slide-in-from-top-1"
+      class="absolute w-36 h-fit max-h-60 overflow-y-scroll z-10 flex flex-col bg-background rounded p-1 mt-[1px] text-accent-foreground text-sm border border-accent shadow animate-in slide-in-from-top-1"
     >
       <button
         class="flex gap-2 items-center justify-between py-1 px-2 hover:bg-accent hover:rounded transition-all"
