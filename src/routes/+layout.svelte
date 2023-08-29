@@ -6,6 +6,10 @@
   import { PUBLIC_UMAMI_ANALYTICS } from '$env/static/public'
   import { page } from '$app/stores'
   import { cn } from '$lib/utils'
+  import { LogIn, User } from 'lucide-svelte'
+  import type { LayoutData } from './$types'
+
+  export let data: LayoutData
 
   $: isIndex = $page.url.pathname === '/'
 </script>
@@ -45,6 +49,16 @@
       )}>objekts</a
     >
     <div class="flex gap-4 justify-end">
+      {#if data.signedIn}
+        <a href="/me" class="flex gap-2 items-center hover:scale-105 transition">
+          <User />
+        </a>
+      {:else}
+        <a href="/me/signin" class="flex gap-2 items-center hover:scale-105 transition">
+          <LogIn /> <span class="hidden md:block">Sign In</span>
+        </a>
+      {/if}
+
       <About />
     </div>
   </div>

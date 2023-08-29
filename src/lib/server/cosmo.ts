@@ -90,15 +90,78 @@ export async function login(email: string, accessToken: string): Promise<string>
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
+      channel: 'email',
       email,
       accessToken
     })
   })
 
   if (!res.ok) {
+    const result = await res.json()
+    console.log({ status: res.status, result })
     throw error(res.status, 'Failed to login')
   }
 
   const result: CosmoLoginResult = await res.json()
   return result.credentials.accessToken
+}
+
+type CosmoUserResult = {
+  profile: {
+    id: number
+    email: string
+    nickname: string
+    address: string
+    profileImageUrl: string
+    followingArtists: {
+      name: string
+      title: string
+      assetBalance: {
+        totalComo: number
+        totalObjekt: number
+      }
+    }[]
+  }
+}
+
+export type CosmoUser = {
+  nickname: string
+  address: string
+  profileImageUrl: string
+  artists: {
+    name: string
+    title: string
+    assetBalance: {
+      totalComo: number
+      totalObjekt: number
+    }
+  }[]
+}
+
+/**
+ * Fetches the user from the access token.
+ * @param accessToken string
+ * @returns Promise<CosmoUser>
+ */
+export async function user(accessToken: string): Promise<CosmoUser> {
+  const res = await fetch(`${COSMO_ENDPOINT}/user/v1/me`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`
+    }
+  })
+
+  if (!res.ok) {
+    throw error(res.status, 'Failed to fetch user')
+  }
+
+  const result: CosmoUserResult = await res.json()
+  return {
+    nickname: result.profile.nickname,
+    address: result.profile.address,
+    profileImageUrl: result.profile.profileImageUrl,
+    artists: result.profile.followingArtists
+  }
 }

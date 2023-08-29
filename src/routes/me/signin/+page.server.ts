@@ -18,7 +18,7 @@ export const actions = {
 
     const pendingToken = await sendEmail(transactionId.toString(), email.toString())
 
-    return { success: true, token: pendingToken }
+    return { success: true, pendingToken }
   },
 
   exchangeCode: async ({ cookies, request }) => {
@@ -41,6 +41,7 @@ export const actions = {
 
     const idToken = await exchangeToken(transactionId.toString(), pendingToken.toString())
     const cosmoToken = await login(email.toString(), idToken)
+    console.log({ cosmoToken })
 
     cookies.set('token', cosmoToken)
 
