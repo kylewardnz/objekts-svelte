@@ -2,6 +2,8 @@ import type { User } from '$lib/types'
 import { error } from '@sveltejs/kit'
 import { redis } from './cache'
 
+const COSMO_ENDPOINT = 'https://api.cosmo.fans'
+
 /**
  * Search for the given user.
  * @param term string
@@ -14,7 +16,7 @@ export async function search(term: string): Promise<User[]> {
     return query
   }
 
-  const res = await fetch(`https://api.cosmo.fans/user/v1/search?query=${term}`)
+  const res = await fetch(`${COSMO_ENDPOINT}/user/v1/search?query=${term}`)
 
   if (res.ok) {
     const { results } = await res.json()
@@ -42,7 +44,7 @@ export async function find(user: string): Promise<string> {
     return cachedAddress
   }
 
-  const res = await fetch(`https://api.cosmo.fans/user/v1/search?query=${user}`)
+  const res = await fetch(`${COSMO_ENDPOINT}/user/v1/search?query=${user}`)
 
   if (res.ok) {
     const { results } = await res.json()
@@ -58,4 +60,45 @@ export async function find(user: string): Promise<string> {
   }
 
   throw error(500, 'Error communicating with Cosmo')
+}
+
+type CosmoLoginResult = {
+  user: {
+    id: number
+    email: string
+    nickname: string
+    address: string
+    profileImageUrl: string
+  }
+  credentials: {
+    accessToken: string
+    refreshToken: string
+  }
+}
+
+/**
+ * Logs in with Cosmo and returns the access token.
+ * @param email string
+ * @param accessToken string
+ * @returns Promise<string>
+ */
+export async function login(email: string, accessToken: string): Promise<string> {
+  const res = await fetch(`${COSMO_ENDPOINT}/auth/v1/signin`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      email,
+      accessToken
+    })
+  })
+
+  if (!res.ok) {
+    throw error(res.status, 'Failed to login')
+  }
+
+  const result: CosmoLoginResult = await res.json()
+  return result.credentials.accessToken
 }
