@@ -43,7 +43,7 @@
       <p class="font-bold">{memberName} {collection}</p>
       <!-- because tooltip doesn't work on mobile... -->
       <div class="hidden lg:block">
-        <Tooltip.Root>
+        <Tooltip.Root openDelay={100}>
           <Tooltip.Trigger>
             <Clock class="w-4 h-4 lg:w-6 lg:h-6" />
           </Tooltip.Trigger>
@@ -57,7 +57,7 @@
     <div class="flex justify-between items-center">
       <p>{className} #{num}</p>
       {#if !transferable}
-        <Tooltip.Root>
+        <Tooltip.Root openDelay={100}>
           <Tooltip.Trigger>
             <Lock class="w-4 h-4 lg:w-6 lg:h-6" />
           </Tooltip.Trigger>
