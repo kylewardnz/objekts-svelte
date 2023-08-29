@@ -1,8 +1,8 @@
 <script lang="ts">
   import members from '../../members.json'
-  import { Avatar, AvatarFallback, AvatarImage } from '$components/ui/avatar'
+  import * as Avatar from '$components/ui/avatar'
   import { Separator } from '$components/ui/separator'
-  import { Tooltip, TooltipContent, TooltipTrigger } from '$components/ui/tooltip'
+  import * as Tooltip from '$components/ui/tooltip'
   import { cn } from '$lib/utils'
   import { selected } from '$lib/store'
   import { navigating } from '$app/stores'
@@ -46,65 +46,65 @@
   class="flex flex-row gap-3 lg:justify-center items-center justify-start shrink-0 p-2 overflow-x-auto"
 >
   <!-- ARTMS -->
-  <Tooltip>
-    <TooltipTrigger>
+  <Tooltip.Root openDelay={100}>
+    <Tooltip.Trigger>
       <button on:click={() => select('ARTMS')}>
-        <Avatar
+        <Avatar.Root
           class={cn(
             'shadow-md transition-all',
             $selected.includes('ARTMS') && 'ring ring-blue-500'
           )}
         >
-          <AvatarFallback>A</AvatarFallback>
-          <AvatarImage src="/members/ARTMS.webp" alt="ARTMS" />
-        </Avatar>
+          <Avatar.Fallback>A</Avatar.Fallback>
+          <Avatar.Image src="/members/ARTMS.webp" alt="ARTMS" />
+        </Avatar.Root>
       </button>
-    </TooltipTrigger>
-    <TooltipContent>
+    </Tooltip.Trigger>
+    <Tooltip.Content>
       <p>ARTMS</p>
-    </TooltipContent>
-  </Tooltip>
+    </Tooltip.Content>
+  </Tooltip.Root>
 
   <!-- tripleS -->
-  <Tooltip>
-    <TooltipTrigger>
+  <Tooltip.Root openDelay={100}>
+    <Tooltip.Trigger>
       <button on:click={() => select('SSS')}>
-        <Avatar
+        <Avatar.Root
           class={cn('shadow-md transition-all', $selected.includes('SSS') && 'ring ring-blue-500')}
         >
-          <AvatarFallback>S</AvatarFallback>
-          <AvatarImage src="/members/tripleS.webp" alt="tripleS" />
-        </Avatar>
+          <Avatar.Fallback>S</Avatar.Fallback>
+          <Avatar.Image src="/members/tripleS.webp" alt="tripleS" />
+        </Avatar.Root>
       </button>
-    </TooltipTrigger>
-    <TooltipContent>
+    </Tooltip.Trigger>
+    <Tooltip.Content>
       <p>tripleS</p>
-    </TooltipContent>
-  </Tooltip>
+    </Tooltip.Content>
+  </Tooltip.Root>
 
   <Separator orientation="vertical" />
 
   <!-- all members -->
   {#each members as { placeholder, filterValue, label, image, show, color }}
     {#if show}
-      <Tooltip>
-        <TooltipTrigger>
+      <Tooltip.Root openDelay={100}>
+        <Tooltip.Trigger>
           <button on:click={() => select(filterValue)}>
-            <Avatar
+            <Avatar.Root
               class={cn(
                 'shadow-md transition-all',
                 $selected.includes(filterValue) && `ring ring-${color ?? 'blue-500'}`
               )}
             >
-              <AvatarFallback>{placeholder}</AvatarFallback>
-              <AvatarImage src={image} alt={label ?? filterValue} />
-            </Avatar>
+              <Avatar.Fallback>{placeholder}</Avatar.Fallback>
+              <Avatar.Image src={image} alt={label ?? filterValue} />
+            </Avatar.Root>
           </button>
-        </TooltipTrigger>
-        <TooltipContent>
+        </Tooltip.Trigger>
+        <Tooltip.Content>
           <p>{label ?? filterValue}</p>
-        </TooltipContent>
-      </Tooltip>
+        </Tooltip.Content>
+      </Tooltip.Root>
     {/if}
   {/each}
 </div>

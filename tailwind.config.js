@@ -1,6 +1,8 @@
-const { fontFamily } = require('tailwindcss/defaultTheme')
+import { fontFamily } from 'tailwindcss/defaultTheme'
+import tailwindcssAnimate from 'tailwindcss-animate'
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+const config = {
   darkMode: ['class'],
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
@@ -60,6 +62,8 @@ module.exports = {
       }
     }
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [tailwindcssAnimate],
   safelist: ['ring-pink-500', 'ring-green-700', 'ring-red-600', 'ring-blue-700', 'ring-purple-500']
 }
+
+export default config

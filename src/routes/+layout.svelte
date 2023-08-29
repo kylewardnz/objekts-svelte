@@ -1,10 +1,9 @@
 <script lang="ts">
   import '../app.postcss'
   import '@fontsource/inter'
-  import Theme from '$components/theme.svelte'
-  import About from '$components/about.svelte'
+  import Theme from '$components/layout/theme.svelte'
+  import About from '$components/layout/about.svelte'
   import { PUBLIC_UMAMI_ANALYTICS } from '$env/static/public'
-  import { TooltipProvider } from '$components/ui/tooltip'
   import { page } from '$app/stores'
   import { cn } from '$lib/utils'
 
@@ -45,13 +44,11 @@
         isIndex ? 'text-2xl' : 'text-lg'
       )}>objekts</a
     >
-    <div class="flex justify-end">
+    <div class="flex gap-4 justify-end">
       <About />
     </div>
   </div>
 
   <!-- content -->
-  <TooltipProvider>
-    <slot />
-  </TooltipProvider>
+  <slot />
 </div>

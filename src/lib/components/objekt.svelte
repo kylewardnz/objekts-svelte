@@ -1,6 +1,6 @@
 <script lang="ts">
   import { cn } from '$lib/utils'
-  import { Tooltip, TooltipContent, TooltipTrigger } from '$components/ui/tooltip'
+  import * as Tooltip from '$components/ui/tooltip'
   import { Lock, Clock } from 'lucide-svelte'
 
   export let frontImage: string
@@ -43,28 +43,28 @@
       <p class="font-bold">{memberName} {collection}</p>
       <!-- because tooltip doesn't work on mobile... -->
       <div class="hidden lg:block">
-        <Tooltip>
-          <TooltipTrigger>
+        <Tooltip.Root openDelay={100}>
+          <Tooltip.Trigger>
             <Clock class="w-4 h-4 lg:w-6 lg:h-6" />
-          </TooltipTrigger>
-          <TooltipContent>
+          </Tooltip.Trigger>
+          <Tooltip.Content>
             <p>Acquired: {acquired}</p>
-          </TooltipContent>
-        </Tooltip>
+          </Tooltip.Content>
+        </Tooltip.Root>
       </div>
     </div>
 
     <div class="flex justify-between items-center">
       <p>{className} #{num}</p>
       {#if !transferable}
-        <Tooltip>
-          <TooltipTrigger>
+        <Tooltip.Root openDelay={100}>
+          <Tooltip.Trigger>
             <Lock class="w-4 h-4 lg:w-6 lg:h-6" />
-          </TooltipTrigger>
-          <TooltipContent>
+          </Tooltip.Trigger>
+          <Tooltip.Content>
             <p>Not transferable</p>
-          </TooltipContent>
-        </Tooltip>
+          </Tooltip.Content>
+        </Tooltip.Root>
       {/if}
     </div>
   </div>

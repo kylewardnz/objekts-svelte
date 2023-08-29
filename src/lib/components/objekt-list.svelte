@@ -7,7 +7,7 @@
   import SortSelector from '$components/sort-selector.svelte'
   import AttributeFilter from '$components/attribute-filter.svelte'
   import CollectionFilter from '$components/collection-filter.svelte'
-  import { Tooltip, TooltipContent, TooltipTrigger } from '$components/ui/tooltip'
+  import * as Tooltip from '$components/ui/tooltip'
   import InfiniteScroll from 'svelte-infinite-scroll'
   import { ChevronDown } from 'lucide-svelte'
   import { executeFilters } from '$lib/filtering'
@@ -47,19 +47,19 @@
   </div>
 
   <div class="flex justify-center font-bold">
-    <Tooltip>
-      <TooltipTrigger>
+    <Tooltip.Root openDelay={100}>
+      <Tooltip.Trigger>
         <div class="flex gap-2 items-center">
           <p>{filteredObjekts.length} Objekts</p>
           {#if filteredObjekts.length !== objekts.length}
             <p class="flex sm:hidden text-xs">({objekts.length} total)</p>
           {/if}
         </div>
-      </TooltipTrigger>
-      <TooltipContent>
+      </Tooltip.Trigger>
+      <Tooltip.Content>
         <p>{objekts.length} total</p>
-      </TooltipContent>
-    </Tooltip>
+      </Tooltip.Content>
+    </Tooltip.Root>
   </div>
 
   <!-- sort and filter -->
