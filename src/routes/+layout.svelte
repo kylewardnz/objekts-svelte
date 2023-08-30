@@ -8,10 +8,19 @@
   import { cn } from '$lib/utils'
   import { LogIn, User } from 'lucide-svelte'
   import type { LayoutData } from './$types'
+  import { onMount } from 'svelte'
+  import { cosmoUser, isSignedIn } from '$lib/store'
+  import ComoBalance from '$components/layout/como-balance.svelte'
 
   export let data: LayoutData
 
   $: isIndex = $page.url.pathname === '/'
+
+  // set the cosmo user in the store
+  onMount(() => {
+    isSignedIn.set(data.signedIn)
+    cosmoUser.set(data.cosmoUser)
+  })
 </script>
 
 <svelte:head>
@@ -49,7 +58,8 @@
       )}>objekts</a
     >
     <div class="flex gap-4 justify-end">
-      {#if data.signedIn}
+      {#if $isSignedIn}
+        <ComoBalance />
         <a href="/me" class="flex gap-2 items-center hover:scale-105 transition">
           <User />
         </a>

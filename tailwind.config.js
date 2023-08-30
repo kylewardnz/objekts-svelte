@@ -63,7 +63,21 @@ const config = {
     }
   },
   plugins: [tailwindcssAnimate],
-  safelist: ['ring-pink-500', 'ring-green-700', 'ring-red-600', 'ring-blue-700', 'ring-purple-500']
+  safelist: [
+    // member rings
+    'ring-pink-500',
+    'ring-green-700',
+    'ring-red-600',
+    'ring-blue-700',
+    'ring-purple-500',
+    // como balances
+    'text-teal-400',
+    'ring-teal-400',
+    'fill-teal-400',
+    'text-purple-300',
+    'ring-purple-300',
+    'fill-purple-300'
+  ]
 }
 
 export default config
