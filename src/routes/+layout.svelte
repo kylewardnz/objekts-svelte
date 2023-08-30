@@ -40,18 +40,20 @@
 
 <div class="h-[100dvh] container flex flex-col mx-auto gap-6 p-5">
   <!-- nav -->
-  <div class="grid grid-cols-3 items-center h-8 min-h-[2rem]">
+  <div class="grid grid-cols-3 items-center h-8 min-h-[2rem] group" data-signed-in={data.signedIn}>
     <div class="flex justify-start">
       <Theme />
     </div>
     <a
       href="/"
       class={cn(
-        'mx-auto w-fit text-center underline underline-offset-8 decoration-blue-500 transition-all',
+        'mx-auto w-fit text-center underline underline-offset-8 decoration-blue-500 transition-all group-data-[signed-in=true]:hidden sm:group-data-[signed-in=true]:block',
         isIndex ? 'text-2xl' : 'text-lg'
       )}>objekts</a
     >
-    <div class="flex gap-4 justify-end">
+    <div
+      class="flex gap-4 justify-end sm:group-data-[signed-in=true]:col-span-1 group-data-[signed-in=true]:col-span-2 overflow-y-hidden"
+    >
       {#if data.signedIn}
         <ComoBalance user={data.cosmoUser} />
         <DropdownMenu.Root>
@@ -60,6 +62,10 @@
           </DropdownMenu.Trigger>
           <DropdownMenu.Content>
             <DropdownMenu.Group>
+              <DropdownMenu.Item>
+                <a class="w-full h-full" href="/">Home</a>
+              </DropdownMenu.Item>
+              <DropdownMenu.Separator />
               <DropdownMenu.Item>
                 <a class="w-full h-full" href={`/${data.cosmoUser?.nickname}`}>Profile</a>
               </DropdownMenu.Item>
