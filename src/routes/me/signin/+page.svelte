@@ -3,7 +3,7 @@
   import { Label } from '$lib/components/ui/label'
   import { Input } from '$lib/components/ui/input'
   import { v4 } from 'uuid'
-  import { enhance } from '$app/forms'
+  import { applyAction, enhance } from '$app/forms'
   import type { ActionData } from './$types'
 
   export let form: ActionData
@@ -35,9 +35,10 @@
       action="?/exchangeCode"
       use:enhance={() => {
         loading = true
-        return async ({ update }) => {
+        return async ({ update, result }) => {
           loading = false
           update()
+          await applyAction(result)
         }
       }}
     >

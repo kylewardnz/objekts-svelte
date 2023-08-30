@@ -1,6 +1,14 @@
 import { login } from '$lib/server/cosmo'
 import { exchangeToken, sendEmail } from '$lib/server/ramper'
 import { fail, type Actions } from '@sveltejs/kit'
+import { redirect } from '@sveltejs/kit'
+import type { PageServerLoad } from './$types'
+
+export const load: PageServerLoad = async ({ cookies }) => {
+  if (cookies.get('token')) {
+    throw redirect(307, '/me')
+  }
+}
 
 export const actions = {
   sendEmail: async ({ request }) => {
@@ -41,9 +49,10 @@ export const actions = {
 
     const idToken = await exchangeToken(transactionId.toString(), pendingToken.toString())
     const cosmoToken = await login(email.toString(), idToken)
-    console.log({ cosmoToken })
 
-    cookies.set('token', cosmoToken)
+    cookies.set('token', cosmoToken, {
+      path: '/'
+    })
 
     return { success: true }
   },

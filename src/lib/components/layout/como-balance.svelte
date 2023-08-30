@@ -1,10 +1,12 @@
 <script lang="ts">
   import { Sparkle, Moon } from 'lucide-svelte'
-  import { cosmoUser } from '$lib/store'
   import { cn } from '$lib/utils'
   import * as Tooltip from '$components/ui/tooltip'
+  import type { CosmoUser } from '$lib/server/cosmo'
 
-  $: balances = ($cosmoUser?.artists ?? []).map((artist) => ({
+  export let user: CosmoUser | undefined
+
+  $: balances = (user?.artists ?? []).map((artist) => ({
     name: artist.title,
     como: artist.assetBalance.totalComo,
     icon: artist.name === 'artms' ? Moon : Sparkle,

@@ -1,26 +1,20 @@
 <script lang="ts">
   import '../app.postcss'
   import '@fontsource/inter'
+  import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
   import Theme from '$components/layout/theme.svelte'
   import About from '$components/layout/about.svelte'
+  import ComoBalance from '$components/layout/como-balance.svelte'
   import { PUBLIC_UMAMI_ANALYTICS } from '$env/static/public'
   import { page } from '$app/stores'
   import { cn } from '$lib/utils'
   import { LogIn, User } from 'lucide-svelte'
   import type { LayoutData } from './$types'
-  import { onMount } from 'svelte'
-  import { cosmoUser, isSignedIn } from '$lib/store'
-  import ComoBalance from '$components/layout/como-balance.svelte'
+  import { enhance } from '$app/forms'
 
   export let data: LayoutData
 
   $: isIndex = $page.url.pathname === '/'
-
-  // set the cosmo user in the store
-  onMount(() => {
-    isSignedIn.set(data.signedIn)
-    cosmoUser.set(data.cosmoUser)
-  })
 </script>
 
 <svelte:head>
@@ -58,11 +52,29 @@
       )}>objekts</a
     >
     <div class="flex gap-4 justify-end">
-      {#if $isSignedIn}
-        <ComoBalance />
-        <a href="/me" class="flex gap-2 items-center hover:scale-105 transition">
-          <User />
-        </a>
+      {#if data.signedIn}
+        <ComoBalance user={data.cosmoUser} />
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger>
+            <User class="hover:scale-105 transition" />
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content>
+            <DropdownMenu.Group>
+              <DropdownMenu.Item>
+                <a class="w-full h-full" href={`/${data.cosmoUser?.nickname}`}>Profile</a>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item>
+                <a class="w-full h-full" href="/me">Account</a>
+              </DropdownMenu.Item>
+              <DropdownMenu.Separator />
+              <DropdownMenu.Item>
+                <form method="POST" action="/me?/logout" use:enhance>
+                  <button type="submit">Sign Out</button>
+                </form>
+              </DropdownMenu.Item>
+            </DropdownMenu.Group>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
       {:else}
         <a href="/me/signin" class="flex gap-2 items-center hover:scale-105 transition">
           <LogIn /> <span class="hidden md:block">Sign In</span>
