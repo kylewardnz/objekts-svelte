@@ -5,6 +5,7 @@
   import { v4 } from 'uuid'
   import { applyAction, enhance } from '$app/forms'
   import type { ActionData } from './$types'
+  import { Loader2 } from 'lucide-svelte'
 
   export let form: ActionData
 
@@ -21,6 +22,10 @@
   let loading = false
 </script>
 
+<svelte:head>
+  <title>Sign In</title>
+</svelte:head>
+
 <div class="w-full lg:w-1/2 my-48 mx-auto flex flex-col gap-4">
   <div class="flex flex-col gap-2">
     <h2 class="font-bold text-2xl">Sign In with Cosmo</h2>
@@ -36,9 +41,9 @@
       use:enhance={() => {
         loading = true
         return async ({ update, result }) => {
-          loading = false
-          update()
+          await update()
           await applyAction(result)
+          loading = false
         }
       }}
     >
@@ -56,7 +61,12 @@
         won't work!
       </p>
 
-      <Button type="submit" bind:disabled={loading}>Sign In</Button>
+      <Button type="submit" disabled={loading}>
+        {#if loading}
+          <Loader2 class="mr-2 h-4 w-4 animate-spin" />
+        {/if}
+        Sign In
+      </Button>
     </form>
   {:else}
     <!-- email capture form -->
@@ -67,8 +77,8 @@
       use:enhance={() => {
         loading = true
         return async ({ update }) => {
+          await update()
           loading = false
-          update()
         }
       }}
     >
@@ -84,7 +94,12 @@
         {/if}
       </div>
 
-      <Button type="submit" bind:disabled={loading}>Send Email</Button>
+      <Button type="submit" disabled={loading}>
+        {#if loading}
+          <Loader2 class="mr-2 h-4 w-4 animate-spin" />
+        {/if}
+        Send Email
+      </Button>
     </form>
   {/if}
 </div>

@@ -4,6 +4,7 @@
   import ObjektList from '$components/objekt-list.svelte'
   import { onMount } from 'svelte'
   import { cn } from '$lib/utils'
+  import { Lock } from 'lucide-svelte'
 
   export let data: PageData
 
@@ -29,10 +30,14 @@
   }
 
   onMount(async () => {
-    try {
-      await fetchObjekts()
-    } catch (err) {
-      error = true
+    if (data.isPrivate) {
+      loading = false
+    } else {
+      try {
+        await fetchObjekts()
+      } catch (err) {
+        error = true
+      }
     }
   })
 </script>
@@ -63,7 +68,12 @@
         <p class="text-xs">An error occurred, please try again</p>
       {/if}
     </div>
-  {:else}
+  {:else if data.isPrivate === false}
     <ObjektList {objekts} address={data.address} />
+  {:else}
+    <div class="flex flex-col gap-4 justify-center items-center py-12">
+      <Lock class="w-16 h-16" />
+      <span class="text-sm">{data.name} has made their profile private</span>
+    </div>
   {/if}
 </div>

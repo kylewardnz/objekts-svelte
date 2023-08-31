@@ -70,7 +70,7 @@
                 <a class="w-full h-full" href={`/${data.cosmoUser?.nickname}`}>Profile</a>
               </DropdownMenu.Item>
               <DropdownMenu.Item>
-                <a class="w-full h-full" href="/me">Account</a>
+                <a class="w-full h-full" href="/me">Settings</a>
               </DropdownMenu.Item>
               <DropdownMenu.Separator />
               <DropdownMenu.Item>
