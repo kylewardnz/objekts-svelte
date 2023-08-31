@@ -5,7 +5,7 @@ import type { Handle } from '@sveltejs/kit'
 export const handle: Handle = async ({ event, resolve }) => {
   const token = event.cookies.get('token')
   if (token) {
-    const decoded = decodeToken(token)
+    const decoded = await decodeToken(token)
     if (decoded.success) {
       event.locals.user = decoded.payload
     } else {

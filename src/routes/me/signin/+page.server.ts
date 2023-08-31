@@ -52,7 +52,7 @@ export const actions = {
     const idToken = await exchangeToken(transactionId.toString(), pendingToken.toString())
     const loginPayload = await login(email.toString(), idToken)
 
-    cookies.set('token', signToken(loginPayload), {
+    cookies.set('token', await signToken(loginPayload), {
       path: '/',
       maxAge: 60 * 60 * 24 * 7, // 7 days
       sameSite: true,

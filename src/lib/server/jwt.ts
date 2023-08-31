@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import { SignJWT, jwtVerify } from 'jose'
 import { JWT_SECRET } from '$env/static/private'
 
 export type TokenPayload = {
@@ -12,12 +12,15 @@ export type TokenPayload = {
 /**
  * Generate a token with the given payload.
  * @param payload TokenPayload
- * @returns string
+ * @returns Promise<string>
  */
-export function signToken(payload: TokenPayload) {
-  return jwt.sign({ data: payload }, JWT_SECRET, {
-    expiresIn: '7d'
-  })
+export async function signToken(payload: TokenPayload) {
+  const secret = new TextEncoder().encode(JWT_SECRET)
+  return await new SignJWT({ data: payload })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('7d')
+    .sign(secret)
 }
 
 type TokenResult =
@@ -25,23 +28,21 @@ type TokenResult =
       success: true
       payload: TokenPayload
     }
-  | {
-      success: false
-      error: jwt.VerifyErrors['name']
-    }
+  | { success: false }
 
 /**
  * Decode the given token.
  * @param token string
- * @returns TokenResult
+ * @returns Promise<TokenResult>
  */
-export function decodeToken(token: string): TokenResult {
+export async function decodeToken(token: string): Promise<TokenResult> {
+  const secret = new TextEncoder().encode(JWT_SECRET)
+
   try {
-    const payload = jwt.verify(token, JWT_SECRET, {
-      maxAge: '1h'
-    })
+    const { payload } = await jwtVerify(token, secret)
+
     if (typeof payload !== 'object' || !('data' in payload)) {
-      throw new jwt.JsonWebTokenError('Invalid token')
+      throw new Error('invalid token')
     }
 
     return {
@@ -49,10 +50,6 @@ export function decodeToken(token: string): TokenResult {
       payload: payload.data as TokenPayload
     }
   } catch (err) {
-    const error = err as jwt.VerifyErrors
-    return {
-      success: false,
-      error: error.name
-    }
+    return { success: false }
   }
 }
