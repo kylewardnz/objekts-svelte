@@ -3,6 +3,8 @@ import { exchangeToken, sendEmail } from '$lib/server/ramper'
 import { fail, type Actions } from '@sveltejs/kit'
 import { redirect } from '@sveltejs/kit'
 import type { PageServerLoad } from './$types'
+import { signToken } from '$lib/server/jwt'
+import { NODE_ENV } from '$env/static/private'
 
 export const load: PageServerLoad = async ({ cookies }) => {
   if (cookies.get('token')) {
@@ -48,10 +50,13 @@ export const actions = {
     }
 
     const idToken = await exchangeToken(transactionId.toString(), pendingToken.toString())
-    const cosmoToken = await login(email.toString(), idToken)
+    const loginPayload = await login(email.toString(), idToken)
 
-    cookies.set('token', cosmoToken, {
-      path: '/'
+    cookies.set('token', signToken(loginPayload), {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      sameSite: true,
+      secure: NODE_ENV !== 'development'
     })
 
     return { success: true }

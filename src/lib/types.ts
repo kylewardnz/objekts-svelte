@@ -15,7 +15,6 @@ export type Objekt = {
 
 export type User = {
   nickname: string
-  address: string
   profileImageUrl: string
 }
 

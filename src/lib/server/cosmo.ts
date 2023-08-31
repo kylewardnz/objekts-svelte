@@ -4,6 +4,14 @@ import { redis } from './cache'
 
 const COSMO_ENDPOINT = 'https://api.cosmo.fans'
 
+type CosmoSearchResult = {
+  results: {
+    nickname: string
+    address: string
+    profileImageUrl: string
+  }[]
+}
+
 /**
  * Search for the given user.
  * @param term string
@@ -19,14 +27,18 @@ export async function search(term: string): Promise<User[]> {
   const res = await fetch(`${COSMO_ENDPOINT}/user/v1/search?query=${term}`)
 
   if (res.ok) {
-    const { results } = await res.json()
+    const data: CosmoSearchResult = await res.json()
+    const sanitized = data.results.map((user) => ({
+      nickname: user.nickname,
+      profileImageUrl: user.profileImageUrl
+    }))
 
     // set results in cache with a short expiry
-    await redis.set(`search:${term.toLowerCase()}`, results, {
+    await redis.set(`search:${term.toLowerCase()}`, sanitized, {
       ex: 60 * 15 // 15 minute expiry
     })
 
-    return results
+    return sanitized
   }
 
   return []
@@ -76,13 +88,21 @@ type CosmoLoginResult = {
   }
 }
 
+type LoginResult = {
+  id: number
+  email: string
+  nickname: string
+  address: string
+  cosmoToken: string
+}
+
 /**
  * Logs in with Cosmo and returns the access token.
  * @param email string
  * @param accessToken string
- * @returns Promise<string>
+ * @returns Promise<LoginResult>
  */
-export async function login(email: string, accessToken: string): Promise<string> {
+export async function login(email: string, accessToken: string): Promise<LoginResult> {
   const res = await fetch(`${COSMO_ENDPOINT}/auth/v1/signin`, {
     method: 'POST',
     headers: {
@@ -97,13 +117,17 @@ export async function login(email: string, accessToken: string): Promise<string>
   })
 
   if (!res.ok) {
-    const result = await res.json()
-    console.log({ status: res.status, result })
     throw error(res.status, 'Failed to login')
   }
 
   const result: CosmoLoginResult = await res.json()
-  return result.credentials.accessToken
+  return {
+    id: result.user.id,
+    email: result.user.email,
+    nickname: result.user.nickname,
+    address: result.user.address,
+    cosmoToken: result.credentials.accessToken
+  }
 }
 
 type CosmoUserResult = {

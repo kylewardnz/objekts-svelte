@@ -8,7 +8,7 @@
   let routing = false
   let users: User[] = []
   let dirty = false
-  let timer: number
+  let timer: NodeJS.Timeout
 
   const debounce = (value: string) => {
     clearTimeout(timer)
@@ -83,7 +83,7 @@
       {#if users.length === 0}
         <p class="py-1 px-2 text-center">No results found</p>
       {:else}
-        {#each users as { nickname, address, profileImageUrl }}
+        {#each users as { nickname, profileImageUrl }}
           <button
             disabled={loading}
             on:click={() => view(nickname)}
@@ -95,7 +95,7 @@
               alt={nickname}
             />
             <span class="justify-start">{nickname}</span>
-            <span class="justify-self-end text-xs">{address.slice(0, 8)}</span>
+            <span class="justify-self-end" />
           </button>
         {/each}
       {/if}

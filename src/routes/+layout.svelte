@@ -52,7 +52,7 @@
       )}>objekts</a
     >
     <div
-      class="flex gap-4 justify-end sm:group-data-[signed-in=true]:col-span-1 group-data-[signed-in=true]:col-span-2 overflow-y-hidden"
+      class="flex gap-4 justify-end sm:group-data-[signed-in=true]:col-span-1 group-data-[signed-in=true]:col-span-2 overflow-hidden"
     >
       {#if data.signedIn}
         <ComoBalance user={data.cosmoUser} />
