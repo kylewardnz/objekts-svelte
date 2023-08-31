@@ -10,7 +10,7 @@
 
   let totalCount = 0
   let objekts: Objekt[] = []
-  let loading = true
+  let loading = data.isPrivate === false
   let error = false
 
   $: percentage = Math.round((objekts.length / totalCount) * 100) || 0
@@ -30,9 +30,7 @@
   }
 
   onMount(async () => {
-    if (data.isPrivate) {
-      loading = false
-    } else {
+    if (!data.isPrivate) {
       try {
         await fetchObjekts()
       } catch (err) {
