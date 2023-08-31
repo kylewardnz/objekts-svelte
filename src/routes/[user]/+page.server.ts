@@ -20,12 +20,14 @@ type UserProfile = PublicProfile | PrivateProfile
 /**
  * Returns a user profile by its Cosmo username.
  * @param user string
+ * @param currentUser string | undefined
  * @returns Promise<UserProfile>
  */
-async function fetchByUsername(user: string): Promise<UserProfile> {
+async function fetchByUsername(user: string, currentUser?: string): Promise<UserProfile> {
   const [address, settings] = await Promise.all([find(user), fetchAccount(user)])
 
-  const isPrivate = settings?.isPrivate ?? false
+  // allow the user in if they're viewing their own profile
+  const isPrivate = (settings?.isPrivate ?? false) && currentUser !== user
   if (isPrivate) {
     return {
       name: user,
@@ -53,11 +55,13 @@ async function fetchByAddress(address: string): Promise<UserProfile> {
   }
 }
 
-export const load = (async ({ params }) => {
+export const load = (async ({ params, locals }) => {
   const isUser = isAddress(params.user) === false
 
   try {
-    return await (isUser ? fetchByUsername(params.user) : fetchByAddress(params.user))
+    return await (isUser
+      ? fetchByUsername(params.user, locals.user?.nickname)
+      : fetchByAddress(params.user))
   } catch (e) {
     throw error(422, 'Error fetching user')
   }
