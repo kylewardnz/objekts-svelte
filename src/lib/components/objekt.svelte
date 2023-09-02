@@ -23,7 +23,7 @@
   }
 </script>
 
-<div class="flex flex-col items-center gap-2">
+<div class="flex flex-col items-center gap-2 touch-manipulation">
   <img
     on:load={() => (loading = false)}
     on:click={toggleImage}

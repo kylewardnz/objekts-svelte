@@ -46,7 +46,7 @@
     <CopyButton {address} />
   </div>
 
-  <div class="flex justify-center font-bold">
+  <div class="flex justify-center font-bold touch-manipulation">
     <Tooltip.Root openDelay={100}>
       <Tooltip.Trigger>
         <div class="flex gap-2 items-center">

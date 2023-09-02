@@ -10,6 +10,7 @@
   onMount(() => {
     // use the existence of the dark class on the html element for the initial value
     dark = document.documentElement.classList.contains('dark')
+    updateClasses(dark)
 
     // show UI controls
     hidden = false
@@ -35,13 +36,7 @@
     dark = value
 
     // update page styling
-    if (dark) {
-      document.documentElement.classList.add('dark')
-      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#030711')
-    } else {
-      document.documentElement.classList.remove('dark')
-      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#FAF8FE')
-    }
+    updateClasses(value)
 
     // store the theme as a local override
     localStorage.theme = dark ? 'dark' : 'light'
@@ -50,6 +45,16 @@
     // this effectively provides a way to override or revert to "automatic" setting mode
     if (window.matchMedia(`(prefers-color-scheme: ${localStorage.theme})`).matches) {
       localStorage.removeItem('theme')
+    }
+  }
+
+  function updateClasses(isDark: boolean) {
+    if (isDark) {
+      document.documentElement.classList.add('dark')
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#030711')
+    } else {
+      document.documentElement.classList.remove('dark')
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#FFFFFF')
     }
   }
 </script>
@@ -71,7 +76,7 @@
 <button
   class="{dark
     ? 'bg-muted-foreground focus:ring-muted-foreground ring-offset-background'
-    : 'bg-muted-foreground focus:ring-muted-foreground0 ring-offset-background'} relative inline-flex flex-shrink-0 h-5 w-9 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2"
+    : 'bg-muted-foreground focus:ring-muted-foreground0 ring-offset-background'} relative inline-flex flex-shrink-0 h-5 w-9 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 touch-manipulation"
   class:hidden
   type="button"
   aria-checked={dark}

@@ -37,7 +37,7 @@
   }
 </script>
 
-<div class="relative md:order-first" use:clickOutside={() => (open = false)}>
+<div class="relative md:order-first touch-manipulation" use:clickOutside={() => (open = false)}>
   <Button
     on:click={() => (open = !open)}
     class={cn(
