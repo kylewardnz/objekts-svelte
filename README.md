@@ -11,6 +11,7 @@ Replaces the React/Nextjs 13 version found [here](https://github.com/teamreflex/
 - [shadcn-svelte](https://www.shadcn-svelte.com/)
 - [Alchemy NFT API](https://www.alchemy.com/)
 - [Upstash](https://www.upstash.com/)
+- [PlanetScale](https://planetscale.com/) & [Drizzle ORM](https://orm.drizzle.team/)
 
 ## License
 

@@ -5,6 +5,7 @@ import { redirect } from '@sveltejs/kit'
 import type { PageServerLoad } from './$types'
 import { signToken } from '$lib/server/jwt'
 import { NODE_ENV } from '$env/static/private'
+import { upsertUser } from '$lib/server/db/functions'
 
 export const load: PageServerLoad = async ({ cookies }) => {
   if (cookies.get('token')) {
@@ -49,8 +50,12 @@ export const actions = {
       return fail(400, { email, invalid: true })
     }
 
+    // exchange token with ramper
     const idToken = await exchangeToken(transactionId.toString(), pendingToken.toString())
+    // login with cosmo
     const loginPayload = await login(email.toString(), idToken)
+    // insert user into db
+    await upsertUser(loginPayload.nickname, loginPayload.address)
 
     cookies.set('token', await signToken(loginPayload), {
       path: '/',

@@ -10,7 +10,7 @@
   export let form: ActionData
 
   let loading = false
-  let isPrivate = data.account.isPrivate
+  let isPrivate = data.user.isPrivate
 </script>
 
 <svelte:head>

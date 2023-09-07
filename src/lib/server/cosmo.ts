@@ -1,6 +1,8 @@
-import type { User } from '$lib/types'
+import type { SearchUser } from '$lib/types'
 import { error } from '@sveltejs/kit'
-import { redis } from './cache'
+import { redis } from '$lib/server/cache'
+import { findUserByCosmo, upsertUser } from '$lib/server/db/functions'
+import type { User } from './db/schema'
 
 const COSMO_ENDPOINT = 'https://api.cosmo.fans'
 
@@ -17,9 +19,9 @@ type CosmoSearchResult = {
  * @param term string
  * @returns Promise<User[]>
  */
-export async function search(term: string): Promise<User[]> {
+export async function search(term: string): Promise<SearchUser[]> {
   // check cache first
-  const query = await redis.get<User[]>(`search:${term.toLowerCase()}`)
+  const query = await redis.get<SearchUser[]>(`search:${term.toLowerCase()}`)
   if (query) {
     return query
   }
@@ -45,27 +47,33 @@ export async function search(term: string): Promise<User[]> {
 }
 
 /**
- * Find the given user in Cosmo and return its address.
+ * Find the given user in Cosmo.
  * @param user string
- * @returns Promise<string>
+ * @returns Promise<User>
  */
-export async function find(user: string): Promise<string> {
+export async function find(user: string): Promise<User> {
   // check cache first
-  const cachedAddress = await redis.get<string>(`user:${user.toLowerCase()}`)
-  if (cachedAddress) {
-    return cachedAddress
+  const cachedUser = await findUserByCosmo(user)
+  if (cachedUser) {
+    return cachedUser
   }
 
   const res = await fetch(`${COSMO_ENDPOINT}/user/v1/search?query=${user}`)
 
   if (res.ok) {
-    const { results } = await res.json()
-    if (results.length > 0) {
-      // set address in cache
-      await redis.set(`user:${user.toLowerCase()}`, results[0].address)
+    const data: CosmoSearchResult = await res.json()
+    if (data.results.length > 0) {
+      const cosmoUser = data.results[0]
 
-      // return address
-      return results[0].address
+      // set address in cache
+      await upsertUser(cosmoUser.nickname, cosmoUser.address)
+
+      // return user
+      return {
+        cosmoNickname: cosmoUser.nickname,
+        polygonAddress: cosmoUser.address,
+        isPrivate: false
+      }
     } else {
       throw error(404, 'Cosmo user not found')
     }

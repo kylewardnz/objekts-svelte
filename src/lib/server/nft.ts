@@ -16,6 +16,12 @@ const collectionMap: Record<string, 'physical' | 'digital'> = {
   Z: 'digital'
 }
 
+/**
+ * Fetch all objekts for a given address and page.
+ * @param address string
+ * @param pageKey string | null
+ * @returns Promise<ObjektPage>
+ */
 export async function fetchByPage(address: string, pageKey: string | null): Promise<ObjektPage> {
   try {
     const response = await fetchNftsForOwner({

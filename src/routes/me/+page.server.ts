@@ -1,15 +1,18 @@
 import { redirect, type Actions, fail } from '@sveltejs/kit'
 import type { PageServerLoad } from './$types'
-import { fetchAccount, updateAccount } from '$lib/server/account'
+import { findUserByCosmo, updateUser } from '$lib/server/db/functions'
 
 export const load: PageServerLoad = async ({ locals }) => {
   if (!locals.user) {
     throw redirect(307, '/me/signin')
   }
 
-  return {
-    account: await fetchAccount(locals.user.nickname)
+  const user = await findUserByCosmo(locals.user.nickname)
+  if (!user) {
+    throw redirect(307, '/me/signin')
   }
+
+  return { user }
 }
 
 export const actions = {
@@ -19,7 +22,6 @@ export const actions = {
     }
 
     const data = await request.formData()
-    console.log(data)
 
     const isPrivate = data.get('isPrivate')
 
@@ -27,7 +29,7 @@ export const actions = {
       return fail(400, { isPrivate, invalid: true })
     }
 
-    await updateAccount(locals.user.nickname, {
+    await updateUser(locals.user.nickname, {
       isPrivate: isPrivate === 'true'
     })
     return { success: true }

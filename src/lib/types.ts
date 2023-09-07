@@ -13,7 +13,7 @@ export type Objekt = {
   key: string
 }
 
-export type User = {
+export type SearchUser = {
   nickname: string
   profileImageUrl: string
 }

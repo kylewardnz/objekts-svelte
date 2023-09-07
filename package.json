@@ -9,7 +9,8 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
-    "format": "prettier --plugin-search-dir . --write ."
+    "format": "prettier --plugin-search-dir . --write .",
+    "db:push": "drizzle-kit push:mysql"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^2.0.0",
@@ -19,6 +20,7 @@
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "autoprefixer": "^10.4.14",
+    "drizzle-kit": "^0.19.13",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-svelte": "^2.30.0",
@@ -36,10 +38,13 @@
   "type": "module",
   "dependencies": {
     "@fontsource/inter": "^5.0.1",
+    "@planetscale/database": "^1.11.0",
     "@upstash/redis": "^1.21.0",
     "bits-ui": "^0.5.2",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
+    "dotenv": "^16.3.1",
+    "drizzle-orm": "^0.28.6",
     "jose": "^4.14.4",
     "lucide-svelte": "^0.269.0",
     "svelte-copy": "^1.3.2",

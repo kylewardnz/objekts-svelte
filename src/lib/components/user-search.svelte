@@ -1,14 +1,14 @@
 <script lang="ts">
   import { Loader2 } from 'lucide-svelte'
   import { goto } from '$app/navigation'
-  import type { User } from '$lib/types'
   import { cn } from '$lib/utils'
+  import type { SearchUser } from '$lib/types'
 
   let loading = false
   let routing = false
-  let users: User[] = []
+  let users: SearchUser[] = []
   let dirty = false
-  let timer: NodeJS.Timeout
+  let timer: ReturnType<typeof setTimeout>
 
   const debounce = (value: string) => {
     clearTimeout(timer)

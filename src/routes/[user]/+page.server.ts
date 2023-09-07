@@ -2,7 +2,6 @@ import { find } from '$lib/server/cosmo'
 import { error } from '@sveltejs/kit'
 import type { PageServerLoad } from './$types'
 import { isAddress } from '$lib/utils'
-import { fetchAccount } from '$lib/server/account'
 
 type PublicProfile = {
   isPrivate: false
@@ -19,26 +18,26 @@ type UserProfile = PublicProfile | PrivateProfile
 
 /**
  * Returns a user profile by its Cosmo username.
- * @param user string
+ * @param nickname string
  * @param currentUser string | undefined
  * @returns Promise<UserProfile>
  */
-async function fetchByUsername(user: string, currentUser?: string): Promise<UserProfile> {
-  const [address, settings] = await Promise.all([find(user), fetchAccount(user)])
+async function fetchByNickname(nickname: string, currentUser?: string): Promise<UserProfile> {
+  const user = await find(nickname)
 
   // allow the user in if they're viewing their own profile
-  const isPrivate = (settings?.isPrivate ?? false) && currentUser !== user
+  const isPrivate = user.isPrivate && currentUser !== nickname
   if (isPrivate) {
     return {
-      name: user,
+      name: nickname,
       isPrivate: true
     }
   }
 
   return {
-    name: user,
+    name: nickname,
     isPrivate: false,
-    address
+    address: user.polygonAddress
   }
 }
 
@@ -60,7 +59,7 @@ export const load = (async ({ params, locals }) => {
 
   try {
     return await (isUser
-      ? fetchByUsername(params.user, locals.user?.nickname)
+      ? fetchByNickname(params.user, locals.user?.nickname)
       : fetchByAddress(params.user))
   } catch (e) {
     throw error(422, 'Error fetching user')
