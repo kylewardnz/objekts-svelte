@@ -1,15 +1,15 @@
 import type { ObjektPage } from '$lib/types'
 import { error } from '@sveltejs/kit'
-import { fetchNftsForOwner, type RawAlchemyObjekt } from './alchemy'
+import { fetchNftsForOwner, fetchTokenBalances, type RawAlchemyObjekt } from './alchemy'
 import type { Objekt } from '$lib/types'
 import { v4 } from 'uuid'
 
 const REGEX = /4x$/i
 
-const CONTRACTS = [
-  '0xA4B37bE40F7b231Ee9574c4b16b7DDb7EAcDC99B', // tripleS
-  '0x0fB69F54bA90f17578a59823E09e5a1f8F3FA200' // ARTMS
-]
+const OBJEKT_TRIPLES = '0xA4B37bE40F7b231Ee9574c4b16b7DDb7EAcDC99B'
+const OBJEKT_ARTMS = '0x0fB69F54bA90f17578a59823E09e5a1f8F3FA200'
+const COMO_TRIPLES = '0x58AeABfE2D9780c1bFcB713Bf5598261b15dB6e5'
+const COMO_ARTMS = '0x8254D8D2903B20187cBC4Dd833d49cECc219F32E'
 
 const collectionMap: Record<string, 'physical' | 'digital'> = {
   A: 'physical',
@@ -26,7 +26,7 @@ export async function fetchByPage(address: string, pageKey: string | null): Prom
   try {
     const response = await fetchNftsForOwner({
       address,
-      contracts: CONTRACTS,
+      contracts: [OBJEKT_TRIPLES, OBJEKT_ARTMS],
       orderBy: 'transferTime',
       pageKey: pageKey ?? undefined
     })
@@ -71,4 +71,20 @@ function mapNftToObjekt(nft: RawAlchemyObjekt): Objekt {
     // used to identify the objekt in the UI - ARTMS welcome objekts are on both contracts
     key: v4()
   }
+}
+
+type ComoBalances = {
+  [contract: string]: number
+}
+
+/**
+ * Fetches the token balances.
+ * @param address string
+ * @returns Promise<ComoBalances>
+ */
+export async function fetchComoBalances(address: string): Promise<ComoBalances> {
+  const balances = await fetchTokenBalances({ address, contracts: [COMO_TRIPLES, COMO_ARTMS] })
+  return balances.reduce((acc, balance) => {
+    return { ...acc, [balance.contractAddress]: balance.tokenBalance }
+  }, {})
 }

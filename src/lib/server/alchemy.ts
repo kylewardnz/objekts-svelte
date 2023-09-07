@@ -59,7 +59,7 @@ const PAGE_SIZE = 100
  * @param {string[]} config.contracts
  * @param {string | undefined} config.orderBy
  * @param {string | undefined} config.pageKey
- * @returns {NFTFetchResponse}
+ * @returns {Promise<NftResponse>}
  */
 export async function fetchNftsForOwner({
   address,
@@ -100,5 +100,73 @@ export async function fetchNftsForOwner({
     }
   } catch (err) {
     throw new Error('Error fetching objekts')
+  }
+}
+
+type TokenBalanceRequest = {
+  address: string
+  contracts: string[]
+}
+
+type AlchemyBalanceResponse = {
+  jsonrpc: string
+  id: number
+  result: {
+    address: string
+    tokenBalances: {
+      contractAddress: string
+      tokenBalance: string
+    }[]
+  }
+}
+
+type DecodedTokenBalance = {
+  contractAddress: string
+  tokenBalance: number
+}
+
+const POLYGON_DECIMALS = 18
+
+/**
+ * Fetch ERC20 token balances from the Alchemy API.
+ *
+ * @param {TokenBalanceRequest} config
+ * @param {string} config.address
+ * @param {string[]} config.contracts
+ * @returns {Promise<DecodedTokenBalance[]>}
+ */
+export async function fetchTokenBalances({
+  address,
+  contracts
+}: TokenBalanceRequest): Promise<DecodedTokenBalance[]> {
+  const endpoint = `https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_KEY}`
+
+  try {
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      redirect: 'follow',
+      body: JSON.stringify({
+        id: 1,
+        jsonrpc: '2.0',
+        method: 'alchemy_getTokenBalances',
+        params: [address, contracts]
+      })
+    })
+
+    if (res.ok) {
+      const data: AlchemyBalanceResponse = await res.json()
+      return data.result.tokenBalances.map((balance) => ({
+        contractAddress: balance.contractAddress,
+        tokenBalance: parseInt(balance.tokenBalance) / 10 ** POLYGON_DECIMALS
+      }))
+    }
+
+    return []
+  } catch (err) {
+    return []
   }
 }

@@ -148,6 +148,10 @@ type CosmoUserResult = {
     followingArtists: {
       name: string
       title: string
+      contracts: {
+        Como: string
+        Objekt: string
+      }
       assetBalance: {
         totalComo: number
         totalObjekt: number
@@ -163,6 +167,10 @@ export type CosmoUser = {
   artists: {
     name: string
     title: string
+    contracts: {
+      Como: string
+      Objekt: string
+    }
     assetBalance: {
       totalComo: number
       totalObjekt: number
