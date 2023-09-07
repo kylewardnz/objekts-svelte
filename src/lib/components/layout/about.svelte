@@ -1,6 +1,5 @@
 <script lang="ts">
   import * as AlertDialog from '$components/ui/alert-dialog'
-  import Button from '$components/ui/button/button.svelte'
   import { HelpCircle } from 'lucide-svelte'
 </script>
 

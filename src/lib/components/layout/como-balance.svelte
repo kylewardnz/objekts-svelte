@@ -15,7 +15,7 @@
 </script>
 
 <div class="flex gap-2 items-center">
-  {#each balances as { name, como, icon, color }, i}
+  {#each balances as { name, como, icon, color } (name)}
     <Tooltip.Root openDelay={100}>
       <Tooltip.Trigger>
         <div

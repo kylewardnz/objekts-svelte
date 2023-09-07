@@ -68,12 +68,12 @@ export async function find(user: string): Promise<User> {
       // set address in cache
       await upsertUser(cosmoUser.nickname, cosmoUser.address)
 
-      // return user
-      return {
-        cosmoNickname: cosmoUser.nickname,
-        polygonAddress: cosmoUser.address,
-        isPrivate: false
+      // fetch user back out the db - planetscale/mysql doesn't support .returning()
+      const dbUser = await findUserByCosmo(cosmoUser.nickname)
+      if (dbUser) {
+        return dbUser
       }
+      throw error(404, 'Cosmo user not found')
     } else {
       throw error(404, 'Cosmo user not found')
     }
