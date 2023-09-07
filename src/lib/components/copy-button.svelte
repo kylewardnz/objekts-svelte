@@ -34,7 +34,7 @@
   ]
 </script>
 
-<div class="relative" use:clickOutside={() => (open = false)}>
+<div class="relative touch-manipulation" use:clickOutside={() => (open = false)}>
   <Button
     on:click={() => (open = !open)}
     class="flex flex-row gap-2 w-fit text-base border-2 border-accent"

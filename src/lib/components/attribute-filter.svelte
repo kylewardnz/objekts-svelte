@@ -26,7 +26,7 @@
   }
 </script>
 
-<div class="relative" use:clickOutside={() => (open = false)}>
+<div class="relative touch-manipulation" use:clickOutside={() => (open = false)}>
   <Button
     on:click={() => (open = !open)}
     class={cn(
