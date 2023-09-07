@@ -7,7 +7,8 @@ const config = {
   preprocess: vitePreprocess(),
   kit: {
     adapter: adapter({
-      runtime: 'edge'
+      runtime: 'edge',
+      regions: ['pdx1']
     }),
     alias: {
       $components: 'src/lib/components',
