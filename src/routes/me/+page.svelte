@@ -14,13 +14,14 @@
 </script>
 
 <svelte:head>
-  <title>Settings</title>
+  <title>Settings · objekts</title>
 </svelte:head>
 
-<div class="w-full lg:w-1/2 my-24 mx-auto flex flex-col gap-4">
-  <h2 class="font-bold text-2xl">Settings</h2>
-
-  <h4>These options have nothing to do with Cosmo, just this website.</h4>
+<div class="w-full lg:w-1/2 my-24 mx-auto flex flex-col gap-8">
+  <div class="flex flex-col gap-2">
+    <h2 class="font-bold text-2xl">Settings</h2>
+    <h4>These options have nothing to do with Cosmo, just this website.</h4>
+  </div>
 
   <form
     method="POST"

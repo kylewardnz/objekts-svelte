@@ -24,9 +24,8 @@ export const actions = {
     const data = await request.formData()
 
     const isPrivate = data.get('isPrivate')
-
     if (!isPrivate) {
-      return fail(400, { isPrivate, invalid: true })
+      return fail(422, { isPrivate, invalid: true })
     }
 
     await updateUser(locals.user.nickname, {

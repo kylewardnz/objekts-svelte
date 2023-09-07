@@ -34,24 +34,42 @@ export async function sendEmail(transactionId: string, email: string): Promise<s
   return result.pendingToken
 }
 
-type ExchangeTokenResult = {
-  success: true
-  customToken: string
-  newAccount: boolean
-  ssoCredential: {
-    idToken: string
-    refreshToken: string
-    rt2: string
-  }
-}
+type ExchangeTokenResult =
+  | {
+      success: true
+      customToken: string
+      newAccount: boolean
+      ssoCredential: {
+        idToken: string
+        refreshToken: string
+        rt2: string
+      }
+    }
+  | {
+      success: false
+      error: string
+    }
+
+type CosmoTokenResult =
+  | {
+      success: true
+      token: string
+    }
+  | {
+      success: false
+      error: string
+    }
 
 /**
  * Exchange the pending token for a session token.
  * @param transactionId string
  * @param pendingToken string
- * @returns Promise<string>
+ * @returns Promise<CosmoTokenResult>
  */
-export async function exchangeToken(transactionId: string, pendingToken: string): Promise<string> {
+export async function exchangeToken(
+  transactionId: string,
+  pendingToken: string
+): Promise<CosmoTokenResult> {
   const response = await fetch(`${RAMPER_ENDPOINT}/exchangeToken`, {
     method: 'POST',
     headers: {
@@ -70,5 +88,12 @@ export async function exchangeToken(transactionId: string, pendingToken: string)
   }
 
   const result: ExchangeTokenResult = await response.json()
-  return result.ssoCredential.idToken
+  if (result.success) {
+    return {
+      success: true,
+      token: result.ssoCredential.idToken
+    }
+  }
+
+  return { success: false, error: result.error }
 }

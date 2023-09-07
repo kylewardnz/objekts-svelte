@@ -37,23 +37,26 @@ export const actions = {
 
     const transactionId = data.get('transactionId')
     if (!transactionId) {
-      return fail(400, { transactionId, invalid: true })
+      return fail(422, { transactionId, invalid: true })
     }
 
     const pendingToken = data.get('pendingToken')
     if (!pendingToken) {
-      return fail(400, { pendingToken, invalid: true })
+      return fail(422, { pendingToken, invalid: true })
     }
 
     const email = data.get('email')
     if (!email) {
-      return fail(400, { email, invalid: true })
+      return fail(422, { email, invalid: true })
     }
 
     // exchange token with ramper
-    const idToken = await exchangeToken(transactionId.toString(), pendingToken.toString())
+    const tokenResult = await exchangeToken(transactionId.toString(), pendingToken.toString())
+    if (!tokenResult.success) {
+      return fail(422, { exchangeError: tokenResult.error })
+    }
     // login with cosmo
-    const loginPayload = await login(email.toString(), idToken)
+    const loginPayload = await login(email.toString(), tokenResult.token)
     // insert user into db
     await upsertUser(loginPayload.nickname, loginPayload.address)
 

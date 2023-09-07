@@ -23,10 +23,10 @@
 </script>
 
 <svelte:head>
-  <title>Sign In</title>
+  <title>Sign In · objekts</title>
 </svelte:head>
 
-<div class="w-full lg:w-1/2 my-48 mx-auto flex flex-col gap-4">
+<div class="w-full lg:w-1/2 my-48 mx-auto flex flex-col gap-8">
   <div class="flex flex-col gap-2">
     <h2 class="font-bold text-2xl">Sign In with Cosmo</h2>
     <h3 class="text-primary">Signing in allows you to customize your public profile.</h3>
@@ -53,13 +53,17 @@
       <input type="hidden" name="email" value={email} />
 
       <p>
-        Check your email for a sign-in link from Cosmo, return to this page once you have verified
+        Check your email for a sign-in link from Cosmo, return to this page once you have validated
         your sign-in.
       </p>
       <p>
         Make sure to click <span class="font-bold">confirm from a different device</span> or else sign-in
         won't work!
       </p>
+
+      {#if form?.exchangeError}
+        <p class="text-red-500">{form?.exchangeError}</p>
+      {/if}
 
       <Button type="submit" disabled={loading}>
         {#if loading}
