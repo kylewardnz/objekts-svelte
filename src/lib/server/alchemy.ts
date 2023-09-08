@@ -170,3 +170,41 @@ export async function fetchTokenBalances({
     return []
   }
 }
+
+type NftMetadataResponse = RawAlchemyObjekt['raw']['metadata']
+
+/**
+ * Fetch metadata for a single NFT.
+ * @param contractAddress string
+ * @param tokenId number
+ * @returns Promise<NftMetadataResponse>
+ */
+export async function fetchNftMetadata(
+  contractAddress: string,
+  tokenId: number
+): Promise<NonNullable<NftMetadataResponse>> {
+  const endpoint = `https://polygon-mainnet.g.alchemy.com/nft/v2/${ALCHEMY_KEY}/getNFTMetadata`
+  const params = new URLSearchParams({
+    contractAddress,
+    tokenId: tokenId.toString(),
+    tokenType: 'ERC721'
+  })
+
+  try {
+    const res = await fetch(endpoint + `?${params.toString()}`, {
+      method: 'GET',
+      headers: {
+        accept: 'application/json'
+      }
+    })
+
+    if (res.ok) {
+      const { metadata } = await res.json()
+      return metadata
+    }
+
+    throw new Error('Error fetching objekt metadata')
+  } catch (err) {
+    throw new Error('Error fetching objekt metadata')
+  }
+}

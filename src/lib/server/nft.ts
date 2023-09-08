@@ -1,6 +1,10 @@
 import type { ObjektPage } from '$lib/types'
-import { error } from '@sveltejs/kit'
-import { fetchNftsForOwner, fetchTokenBalances, type RawAlchemyObjekt } from './alchemy'
+import {
+  fetchNftMetadata,
+  fetchNftsForOwner,
+  fetchTokenBalances,
+  type RawAlchemyObjekt
+} from './alchemy'
 import type { Objekt } from '$lib/types'
 import { v4 } from 'uuid'
 
@@ -43,7 +47,20 @@ export async function fetchByPage(address: string, pageKey: string | null): Prom
     }
   } catch (err) {
     console.error(err)
-    throw error(500, 'Error fetching objekts')
+    throw new Error('Error fetching objekts')
+  }
+}
+
+function mapCommonObjektFields(metadata: RawAlchemyObjekt['raw']['metadata']) {
+  return {
+    frontImage: (metadata?.objekt.frontImage as string).replace(REGEX, '1x'),
+    backImage: (metadata?.objekt.backImage as string).replace(REGEX, '1x'),
+    className: metadata?.objekt.class as string,
+    memberName: metadata?.objekt.member as string,
+    season: metadata?.objekt.season as string,
+    collection: metadata?.objekt.collectionNo as string,
+    type: collectionMap[(metadata?.objekt.collectionNo as string).at(-1) ?? 'Z'],
+    num: metadata?.objekt.objektNo as number
   }
 }
 
@@ -54,14 +71,7 @@ export async function fetchByPage(address: string, pageKey: string | null): Prom
  */
 function mapNftToObjekt(nft: RawAlchemyObjekt): Objekt {
   return {
-    frontImage: (nft.raw?.metadata?.objekt.frontImage as string).replace(REGEX, '1x'),
-    backImage: (nft.raw?.metadata?.objekt.backImage as string).replace(REGEX, '1x'),
-    className: nft.raw?.metadata?.objekt.class as string,
-    memberName: nft.raw?.metadata?.objekt.member as string,
-    season: nft.raw?.metadata?.objekt.season as string,
-    collection: nft.raw?.metadata?.objekt.collectionNo as string,
-    type: collectionMap[(nft.raw?.metadata?.objekt.collectionNo as string).at(-1) ?? 'Z'],
-    num: nft.raw?.metadata?.objekt.objektNo as number,
+    ...mapCommonObjektFields(nft.raw?.metadata),
     tokenId: parseInt(nft.tokenId),
     acquiredAt: (nft.acquiredAt?.blockTimestamp
       ? new Date(nft.acquiredAt.blockTimestamp)
@@ -87,4 +97,24 @@ export async function fetchComoBalances(address: string): Promise<ComoBalances> 
   return balances.reduce((acc, balance) => {
     return { ...acc, [balance.contractAddress]: balance.tokenBalance }
   }, {})
+}
+
+type UniqueObjekt = Omit<Objekt, 'acquiredAt' | 'transferable' | 'key'>
+
+/**
+ * Fetch the metadata for a single NFT.
+ * @param contract string
+ * @param tokenId number
+ * @returns Promise<UniqueObjekt>
+ */
+export async function fetchNft(contract: string, tokenId: number): Promise<UniqueObjekt> {
+  try {
+    const response = await fetchNftMetadata(contract, tokenId)
+    return {
+      ...mapCommonObjektFields(response),
+      tokenId: parseInt(response.objekt.tokenId)
+    }
+  } catch (err) {
+    throw new Error('Error fetching objekt')
+  }
 }
