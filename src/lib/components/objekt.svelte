@@ -8,6 +8,7 @@
   export let className: string
   export let memberName: string
   export let collection: string
+  export let season: string
   export let num: number
   export let acquiredAt: number
   export let transferable: boolean
@@ -38,34 +39,36 @@
     height={450}
     alt={`${memberName} ${collection} ${num}`}
   />
-  <div class="flex flex-col text-xs md:text-lg w-full lg:px-4">
-    <div class="flex justify-between items-center">
-      <p class="font-bold">{memberName} {collection}</p>
-      <!-- because tooltip doesn't work on mobile... -->
-      <div class="hidden lg:block">
-        <Tooltip.Root openDelay={100}>
-          <Tooltip.Trigger>
-            <Clock class="w-4 h-4 lg:w-6 lg:h-6" />
-          </Tooltip.Trigger>
-          <Tooltip.Content>
-            <p>Acquired: {acquired}</p>
-          </Tooltip.Content>
-        </Tooltip.Root>
+  <slot {memberName} {collection} {season} {acquired} {className} {num} {transferable}>
+    <div class="flex flex-col text-xs md:text-lg w-full lg:px-4">
+      <div class="flex justify-between items-center">
+        <p class="font-bold">{memberName} {collection}</p>
+        <!-- because tooltip doesn't work on mobile... -->
+        <div class="hidden lg:block">
+          <Tooltip.Root openDelay={100}>
+            <Tooltip.Trigger>
+              <Clock class="w-4 h-4 lg:w-6 lg:h-6" />
+            </Tooltip.Trigger>
+            <Tooltip.Content>
+              <p>Acquired: {acquired}</p>
+            </Tooltip.Content>
+          </Tooltip.Root>
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <p>{className} #{num}</p>
+        {#if !transferable}
+          <Tooltip.Root openDelay={100}>
+            <Tooltip.Trigger>
+              <Lock class="w-4 h-4 lg:w-6 lg:h-6" />
+            </Tooltip.Trigger>
+            <Tooltip.Content>
+              <p>Not transferable</p>
+            </Tooltip.Content>
+          </Tooltip.Root>
+        {/if}
       </div>
     </div>
-
-    <div class="flex justify-between items-center">
-      <p>{className} #{num}</p>
-      {#if !transferable}
-        <Tooltip.Root openDelay={100}>
-          <Tooltip.Trigger>
-            <Lock class="w-4 h-4 lg:w-6 lg:h-6" />
-          </Tooltip.Trigger>
-          <Tooltip.Content>
-            <p>Not transferable</p>
-          </Tooltip.Content>
-        </Tooltip.Root>
-      {/if}
-    </div>
-  </div>
+  </slot>
 </div>

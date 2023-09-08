@@ -7,6 +7,8 @@
   import { selected } from '$lib/store'
   import { navigating } from '$app/stores'
 
+  export let reset = true
+
   // reset selected members when navigating
   $: {
     if ($navigating) {
@@ -36,7 +38,7 @@
     }
 
     // select both groups when no members are selected
-    if ($selected.length === 0) {
+    if ($selected.length === 0 && reset) {
       selected.set(['SSS', 'ARTMS'])
     }
   }

@@ -9,6 +9,7 @@ type FilterInput = {
   sort: string
   members: string[]
   filterMode: 'and' | 'or'
+  showAll?: boolean
 }
 
 // the position in the member JSON where the ARTMS members end
@@ -34,11 +35,12 @@ export function executeFilters({
   collectionFilters,
   sort,
   members,
-  filterMode
+  filterMode,
+  showAll = true
 }: FilterInput) {
   return pipe(
     input,
-    (obj) => filterMembers(obj, members),
+    (obj) => filterMembers(obj, members, showAll),
     (obj) => orderBy(obj, sort),
     (obj) => filterProperties(obj, attributeFilters, filterMode),
     (obj) => filterCollections(obj, collectionFilters)
@@ -74,10 +76,11 @@ function orderBy(input: Objekt[], sort: string) {
  * Filter objekts by the input member list.
  * @param input {@link Objekt[]}
  * @param members string[]
+ * @param showAll boolean
  * @returns Objekt[]
  */
-function filterMembers(input: Objekt[], members: string[]) {
-  if (members.length === 0) return input
+function filterMembers(input: Objekt[], members: string[], showAll: boolean) {
+  if (members.length === 0) return showAll ? input : []
 
   return input.filter((objekt) => {
     const existsS = members.includes('SSS')

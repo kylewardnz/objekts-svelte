@@ -59,6 +59,9 @@ const config = {
       },
       aspectRatio: {
         photocard: '5.5 / 8.5'
+      },
+      fontSize: {
+        '2xs': ['10px', '14px']
       }
     }
   },
