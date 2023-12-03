@@ -13,7 +13,9 @@
     <img src="apollo.png" alt="Apollo" class="h-16 aspect-auto invert dark:invert-0" />
   </a>
   <p class="font-semibold">objekts.jinsoul.tv will soon be replaced by Apollo</p>
-  <p>The data source this site uses has become unreliable and not worth keeping up</p>
+  <p>
+    The data source this site uses has become unreliable and all progress has been put into Apollo
+  </p>
   <p>
     Apollo is an unofficial desktop version of Cosmo, including the ability to send objekts,
     complete grids and view full gravity details
