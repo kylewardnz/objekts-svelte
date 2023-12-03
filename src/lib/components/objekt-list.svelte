@@ -3,7 +3,6 @@
   import { selected } from '$lib/store'
   import MemberFilter from '$components/member-filter.svelte'
   import Objekt from '$components/objekt.svelte'
-  import CopyButton from '$components/copy-button.svelte'
   import SortSelector from '$components/sort-selector.svelte'
   import AttributeFilter from '$components/attribute-filter.svelte'
   import CollectionFilter from '$components/collection-filter.svelte'
@@ -11,9 +10,11 @@
   import InfiniteScroll from 'svelte-infinite-scroll'
   import { ChevronDown } from 'lucide-svelte'
   import { executeFilters } from '$lib/filtering'
+  import ApolloButton from './apollo-button.svelte'
 
   export let objekts: RemoteObjekt[] = []
   export let address: string
+  export let name: string
 
   const PAGE_SIZE = 24
 
@@ -43,7 +44,7 @@
 <!-- copy button, count, sorting -->
 <div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-3 lg:grid-rows-1 gap-2 items-center">
   <div class="flex justify-center lg:justify-start">
-    <CopyButton {address} />
+    <ApolloButton {name} {address} />
   </div>
 
   <div class="flex justify-center font-bold touch-manipulation">

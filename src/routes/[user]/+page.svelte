@@ -64,6 +64,6 @@
       {/if}
     </div>
   {:else}
-    <ObjektList {objekts} address={data.address} />
+    <ObjektList {objekts} name={data.name} address={data.address} />
   {/if}
 </div>
