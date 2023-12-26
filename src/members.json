@@ -168,6 +168,38 @@
     "show": true,
     "color": null
   },
+  {
+    "placeholder": "LN",
+    "filterValue": "Lynn",
+    "label": null,
+    "image": "/members/S17.jpg",
+    "show": true,
+    "color": null
+  },
+  {
+    "placeholder": "JB",
+    "filterValue": "JooBin",
+    "label": null,
+    "image": "/members/S18.jpg",
+    "show": true,
+    "color": null
+  },
+  {
+    "placeholder": "HY",
+    "filterValue": "HaYeon",
+    "label": null,
+    "image": "/members/S19.jpg",
+    "show": true,
+    "color": null
+  },
+  {
+    "placeholder": "SO",
+    "filterValue": "ShiOn",
+    "label": null,
+    "image": "/members/S20.jpg",
+    "show": true,
+    "color": null
+  },
 
   {
     "placeholder": "TS",
